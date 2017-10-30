@@ -48,8 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CakeSupplement.cs" />
-    <Compile Include="Identity\Role.cs" />
-    <Compile Include="Identity\User.cs" />
     <Compile Include="BakeryContext.cs" />
     <Compile Include="Cake.cs" />
     <Compile Include="Image.cs" />
@@ -78,6 +76,11 @@
     <EmbeddedResource Include="Migrations\201710221509430_AddFields.resx">
       <DependentUpon>201710221509430_AddFields.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.5.0.3766\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.5.0.3766\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.5.0.3766\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
