@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakery", "Bakery\Bakery.csproj", "{FD0F9966-25D1-4B6F-97F8-83728BA47450}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryDb", "BakeryDb\BakeryDb.csproj", "{E03E49A1-A685-4C95-A4F3-D12CD988B669}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakery.Core", "Bakery.Core\Bakery.Core.csproj", "{898F40B8-9113-47A7-A50F-F2A01E72812B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakery", "Bakery\Bakery.csproj", "{81162B27-EBED-40D3-B92B-2749A40A3502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FD0F9966-25D1-4B6F-97F8-83728BA47450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD0F9966-25D1-4B6F-97F8-83728BA47450}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD0F9966-25D1-4B6F-97F8-83728BA47450}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD0F9966-25D1-4B6F-97F8-83728BA47450}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E03E49A1-A685-4C95-A4F3-D12CD988B669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E03E49A1-A685-4C95-A4F3-D12CD988B669}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E03E49A1-A685-4C95-A4F3-D12CD988B669}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{898F40B8-9113-47A7-A50F-F2A01E72812B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{898F40B8-9113-47A7-A50F-F2A01E72812B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{898F40B8-9113-47A7-A50F-F2A01E72812B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81162B27-EBED-40D3-B92B-2749A40A3502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81162B27-EBED-40D3-B92B-2749A40A3502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81162B27-EBED-40D3-B92B-2749A40A3502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81162B27-EBED-40D3-B92B-2749A40A3502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
