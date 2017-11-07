@@ -13,6 +13,16 @@ namespace BakeryDb
             
         }
 
+        public Cake(Cake cake)
+        {
+            CakeId = cake.CakeId;
+            CakeName = cake.CakeName;
+            CakeDescription = cake.CakeDescription;
+            CakePrice = cake.CakePrice;
+            ImageId = cake.ImageId;
+
+        }
+
         public int CakeId { get; set; }
 
         public string CakeName { get; set; }
@@ -21,11 +31,9 @@ namespace BakeryDb
 
         public int CakePrice { get; set; }
 
-        public virtual Image PreviewImage { get; set; }
-
-        public virtual ICollection<CakeSupplement> CakeSupplements { get; set; }
-
-        public virtual ICollection<Image> Images { get; set; }
-
+        /// <summary>
+        /// Preview image
+        /// </summary>
+        public int ImageId { get; set; }
     }
 }

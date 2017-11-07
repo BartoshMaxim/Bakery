@@ -10,6 +10,6 @@ namespace BakeryDb
     {
         public int OrderId { get; set; }  
 
-        public virtual Cake Cake { get; set; }
+        public int CakeId { get; set; }
     }
 }
