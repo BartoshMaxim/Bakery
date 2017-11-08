@@ -35,5 +35,7 @@ namespace BakeryDb
         /// Preview image
         /// </summary>
         public int ImageId { get; set; }
+
+        public DateTime AddedTime { get; set; }
     }
 }
