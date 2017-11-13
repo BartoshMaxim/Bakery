@@ -11,5 +11,9 @@ namespace BakeryDb
         public int OrderId { get; set; }  
 
         public int CakeId { get; set; }
+
+        public int CustomerId { get; set; }
+
+        public OrderType OrderType { get; set; }
     }
 }

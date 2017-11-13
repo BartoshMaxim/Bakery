@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,8 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Bakery\Sql.cs" />
+    <Compile Include="Models\BakeryEntities\MainAddress.cs" />
     <Compile Include="Models\BakeryEntities\CakeImage.cs" />
     <Compile Include="Models\BakeryEntities\CakeSupplement.cs" />
+    <Compile Include="Models\BakeryEntities\Customer.cs" />
+    <Compile Include="Models\BakeryEntities\OrderType.cs" />
+    <Compile Include="Models\BakeryEntities\RoleType.cs" />
     <Compile Include="Models\BakeryEntities\Supplement.cs" />
     <Compile Include="Models\BakeryEntities\Cake.cs" />
     <Compile Include="Models\BakeryEntities\Image.cs" />
@@ -63,6 +68,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BakeryEntities\Order.cs" />
+    <Compile Include="Models\IdentityEntities\CustomerIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Settings.cs" />
   </ItemGroup>
@@ -85,8 +91,6 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.5.0.3766\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.5.0.3766\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Identity\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

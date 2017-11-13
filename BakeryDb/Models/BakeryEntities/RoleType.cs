@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace BakeryDb
 {
-    public class CakeImage
+    public enum RoleType
     {
-        public int CakeImageId { get; set; }
-
-        public int CakeId { get; set; }
-
-        public int ImageId { get; set; }
+        Unregistered, User, Admin
     }
 }
