@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BakeryDb
+namespace BakeryApi
 {
     public class CustomerIdentity : IIdentity
     {
@@ -20,5 +20,7 @@ namespace BakeryDb
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string Password { get; set; }
     }
 }

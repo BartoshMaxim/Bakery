@@ -58,15 +58,6 @@
     <Compile Include="Models\BakeryEntities\Supplement.cs" />
     <Compile Include="Models\BakeryEntities\Cake.cs" />
     <Compile Include="Models\BakeryEntities\Image.cs" />
-    <Compile Include="Migrations\201710161441020_InitialCreate.cs" />
-    <Compile Include="Migrations\201710161441020_InitialCreate.Designer.cs">
-      <DependentUpon>201710161441020_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201710221509430_AddFields.cs" />
-    <Compile Include="Migrations\201710221509430_AddFields.Designer.cs">
-      <DependentUpon>201710221509430_AddFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BakeryEntities\Order.cs" />
     <Compile Include="Models\IdentityEntities\CustomerIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,14 +68,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710161441020_InitialCreate.resx">
-      <DependentUpon>201710161441020_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201710221509430_AddFields.resx">
-      <DependentUpon>201710221509430_AddFields.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.5.0.3766\analyzers\Google.Protobuf.dll" />
