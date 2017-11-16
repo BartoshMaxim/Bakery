@@ -1,8 +1,7 @@
 ﻿using BakeryApi.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Collections.Generic;
+using Dapper;
 
 namespace BakeryApi.Respositories
 {
@@ -10,22 +9,76 @@ namespace BakeryApi.Respositories
     {
         public bool DeleteCakeSupplementReference(int cakeid, int supplementid, LoginModel loginModel)
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return context.Execute(@"
+                    DELETE FROM CakeSupplements
+                    WHERE
+                        CakeId       = @cakeid
+                    AND
+                        SupplementId = @supplementid
+                ", new
+                {
+                    cakeid = cakeid,
+                    supplementid = supplementid
+                }) != 0;
+            }
         }
 
-        public Supplement GetSupplement(int cakeid, int supplementid)
+        public int GetCakeSupplementId(int cakeid, int supplementid)
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT
+                        CakeSupplements
+                    FROM
+                        CakeSupplements
+                    WHERE
+                        CakeId       = @cakeid
+                    AND
+                        SupplementId = @supplementid
+                ", new
+                {
+                    cakeid = cakeid,
+                    supplementid = supplementid
+                });
+            }
         }
 
         public List<Supplement> GetSupplements(int cakeid)
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<Supplement>(@"
+                    SELECT
+                        s.SupplementId
+                        ,s.SupplementName
+                        ,s.SupplementDescription
+                    FROM
+                        Supplements as s
+                            JOIN CakeSupplements as cs
+                            ON cs.SupplementId = s.SupplementId
+                            AND cs.CakeId     = @cakeid                               
+                ").ToList(); 
+            }
         }
 
         public bool InsertCakeSupplementReference(int cakeid, int supplementid, LoginModel loginModel)
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return context.Execute(@"
+                    INSERT
+                        CakeSupplements (CakeId, SupplementId)
+                    VALUES
+                        (@cakeid, @supplementid)
+                    ", new
+                {
+                    cakeid = cakeid,
+                    supplementid = supplementid
+                }) != 0;
+            }
         }
     }
 }

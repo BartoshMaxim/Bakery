@@ -1,5 +1,5 @@
 ﻿using BakeryApi.Interfaces;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using Dapper;
 
@@ -9,7 +9,41 @@ namespace BakeryApi.Repositories
     {
         public bool DeleteCakeImageReference(int cakeid, int imageid, LoginModel loginModel)
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return context.Execute(@"
+                    DELETE FROM CakeImages
+                    WHERE
+                        CakeId  = @cakeid
+                    AND
+                        ImageId = @imageid
+                ", new
+                {
+                    cakeid = cakeid,
+                    imageid = imageid
+                }) != 0;
+            }
+        }
+
+        public int GetCakeImageId(int cakeid, int imageid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT
+                        CakeImageId
+                    FROM
+                        CakeImages
+                    WHERE
+                        CakeId  = @cakeid
+                    AND
+                        ImageId = @imageid
+                ", new
+                {
+                    cakeid = cakeid,
+                    imageid = imageid
+                });
+            }
         }
 
         public List<Image> GetImages(int cakeid)
@@ -25,12 +59,12 @@ namespace BakeryApi.Repositories
                         Images as i
                     JOIN
                         CakeImages as ci
-                            ON i.ImageId = ci.ImageId
+                            ON ci.ImageId = i.ImageId
                             AND ci.CakeId = @cakeid
                         ", new
                 {
                     cakeid = cakeid
-                }).AsList();
+                }).ToList(); 
             }
         }
 
@@ -38,7 +72,7 @@ namespace BakeryApi.Repositories
         {
             using (var context = Bakery.Sql())
             {
-                context.Execute(@"
+                return context.Execute(@"
                     INSERT
                         CakeImages (CakeId, ImageId)
                     VALUES
@@ -47,9 +81,8 @@ namespace BakeryApi.Repositories
                 {
                     cakeid = cakeid,
                     imageid = imageid
-                });
+                }) != 0;
             }
-            return false;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using Dapper;
 
 namespace BakeryApi.Respositories
 {
@@ -10,12 +10,33 @@ namespace BakeryApi.Respositories
     {
         public RoleType GetOrder(int roletypeid)
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return (RoleType) context.ExecuteScalar<int>(@"
+                    SELECT
+                        CustomerRoleId
+                    FROM
+                        CustomerRoles
+                    WHERE
+                        CustomerRoleId = @roletypeid
+                ", new
+                {
+                    roletypeid = roletypeid
+                });
+            }
         }
 
         public List<RoleType> GetRoleTypes()
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<RoleType>(@"
+                    SELECT
+                        CustomerRoleId
+                    FROM
+                        CustomerRoles
+                ").ToList();
+            }
         }
     }
 }

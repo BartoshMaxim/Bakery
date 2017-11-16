@@ -27,7 +27,7 @@ namespace BakeryApi
                         {
                             get
                             {
-                                return "Data Source=mssql5.gear.host;Initial Catalog=bakerydb;Persist Security Info=True;User ID=bakerysanbox1;Password=Sj3UJL-VO4e~;Pooling=True";
+                                return "Data Source=mssql5.gear.host;Initial Catalog=bakerysanbox1;Persist Security Info=True;User ID=bakerysanbox1;Password=Sj3UJL-VO4e~;Pooling=True";
                             }
                         }
 

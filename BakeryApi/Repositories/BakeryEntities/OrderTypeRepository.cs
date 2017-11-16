@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using Dapper;
 
 namespace BakeryApi.Repositories
 {
@@ -10,12 +10,33 @@ namespace BakeryApi.Repositories
     {
         public OrderType GetOrder(int ordertypeid)
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return (OrderType) context.ExecuteScalar<int>(@"
+                    SELECT
+                        OrderTypeId
+                    FROM
+                        OrderTypes
+                    WHERE
+                        OrderTypeId = @ordertypeid
+                ", new
+                {
+                    ordertypeid = ordertypeid
+                });
+            }
         }
 
         public List<OrderType> GetOrderTypes()
         {
-            throw new NotImplementedException();
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<OrderType>(@"
+                    SELECT
+                        OrderTypeId
+                    FROM
+                        OrderTypes
+                ").ToList();
+            }
         }
     }
 }

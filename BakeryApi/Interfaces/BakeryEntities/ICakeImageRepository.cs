@@ -10,6 +10,8 @@ namespace BakeryApi.Interfaces
     {
         List<Image> GetImages(int cakeid);
 
+        int GetCakeImageId(int cakeid, int imageid);
+
         bool InsertCakeImageReference(int cakeid, int imageid, LoginModel loginModel);
 
         bool DeleteCakeImageReference(int cakeid, int imageid, LoginModel loginModel);

@@ -12,6 +12,8 @@ namespace BakeryApi.Interfaces
 
         Order GetOrder(int orderid);
 
+        FullOrder GetFullOrder(int orderid);
+
         bool InsertOrder(Order order, LoginModel loginModel);
 
         bool DeleteOrder(int orderid, LoginModel loginModel);

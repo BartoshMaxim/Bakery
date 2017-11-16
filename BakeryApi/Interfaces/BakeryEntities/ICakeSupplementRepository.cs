@@ -10,7 +10,7 @@ namespace BakeryApi.Interfaces
     {
         List<Supplement> GetSupplements(int cakeid);
 
-        Supplement GetSupplement(int cakeid, int supplementid);
+        int GetCakeSupplementId(int cakeid, int supplementid);
 
         bool InsertCakeSupplementReference(int cakeid, int supplementid, LoginModel loginModel);
 

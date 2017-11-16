@@ -20,7 +20,7 @@ namespace BakeryApi
             CakeDescription = cake.CakeDescription;
             CakePrice = cake.CakePrice;
             ImageId = cake.ImageId;
-
+            AddedDate = cake.AddedDate;
         }
 
         public int CakeId { get; set; }
@@ -36,6 +36,6 @@ namespace BakeryApi
         /// </summary>
         public int ImageId { get; set; }
 
-        public DateTime AddedTime { get; set; }
+        public DateTime AddedDate { get; set; }
     }
 }

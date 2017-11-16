@@ -13,5 +13,7 @@ namespace BakeryApi
         public string SupplementName { get; set; } 
 
         public string SupplementDescription { get; set; }
+
+        public int SupplementPrice { get; set; }
     }
 }
