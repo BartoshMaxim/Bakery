@@ -149,6 +149,7 @@
     <Compile Include="Models\BakeryEntities\OrderType.cs" />
     <Compile Include="Models\BakeryEntities\RoleType.cs" />
     <Compile Include="Models\BakeryEntities\Supplement.cs" />
+    <Compile Include="Models\ControllerEntities\CustomerControllerEntities.cs" />
     <Compile Include="Models\IdentityEntities\CustomerIdentity.cs" />
     <Compile Include="Models\IdentityEntities\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

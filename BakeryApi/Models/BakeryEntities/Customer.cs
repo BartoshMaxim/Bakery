@@ -18,7 +18,6 @@ namespace BakeryApi
         [Required]
         public string LastName { get; set; }
 
-        [Required]
         public DateTime CreatedDate { get; set; }
 
         [Required]
