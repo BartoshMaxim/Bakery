@@ -1,5 +1,4 @@
-﻿using AdminDashboard;
-using BakeryApi;
+﻿using Bakery.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,27 +7,11 @@ using System.Web.Security;
 
 namespace AdminDashboard.Models
 {
-    public class Identity
+    public class IdentityServices
     {
-        public static CustomerIdentity Current
-        {
-            get
-            {
-                try
-                {
-                    return HttpContext.Current.User.Identity as CustomerIdentity;
-                }
-                catch
-                {
-                    HttpContext.Current.Response.Redirect("Account/Logout");
-                    return null;
-                }
-            }
-        }
-
         public bool Login(LoginModel loginModel)
         {
-            var customerid = CustomerService.GetCustomerId(loginModel.Email, loginModel.Password);
+            var customerid = BakeryRepository.GetCustomerRepository().GetCustomerId(loginModel.Email, loginModel.Password);
             if (customerid != 0)
                 return false;
 
@@ -39,7 +22,7 @@ namespace AdminDashboard.Models
                 DateTime.Now,
                 DateTime.Now.AddMinutes(120),
                 false,
-                loginModel.Email + customerid);
+                customerid.ToString());
 
             // Encrypt the ticket
             var encTicket = FormsAuthentication.Encrypt(ticket);
@@ -56,6 +39,11 @@ namespace AdminDashboard.Models
                 HttpContext.Current.Response.Cookies.Set(cookie);
             }
             return true;
+        }
+
+        public void Logout()
+        {
+            FormsAuthentication.SignOut();
         }
     }
 }
