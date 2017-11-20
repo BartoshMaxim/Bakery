@@ -12,16 +12,23 @@ namespace BakeryApi.Respositories
     {
         public bool DeleteCustomer(int customerid, LoginModel loginModel)
         {
-            using (var context = Bakery.Sql())
+            if (IsAdmin(loginModel))
             {
-                return context.Execute(@"
+                using (var context = Bakery.Sql())
+                {
+                    return context.Execute(@"
                     DELETE FROM Customers
                     WHERE
                         CustomerId = @customerid
                 ", new
-                {
-                    customerid = customerid
-                }) != 0;
+                    {
+                        customerid = customerid
+                    }) != 0;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -219,7 +226,7 @@ namespace BakeryApi.Respositories
             }
         }
 
-        public bool IsAdmin(LoginModel loginModel)
+        public static bool IsAdmin(LoginModel loginModel)
         {
             using (var context = Bakery.Sql())
             {
@@ -240,7 +247,7 @@ namespace BakeryApi.Respositories
             }
         }
 
-        private string ToMd5(string password)
+        private static string ToMd5(string password)
         {
             StringBuilder hash = new StringBuilder();
             MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();

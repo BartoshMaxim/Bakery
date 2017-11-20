@@ -10,16 +10,24 @@ namespace BakeryApi.Respositories
     {
         public bool DeleteCake(int cakeid, LoginModel loginModel)
         {
-            using (var context = Bakery.Sql())
+            if (CustomerRepository.IsAdmin(loginModel))
             {
-                return context.Execute(@"
+
+                using (var context = Bakery.Sql())
+                {
+                    return context.Execute(@"
                     DELETE FROM Cakes
                     WHERE
                         ImageId = @imageid
                 ", new
-                {
-                    cakeid = cakeid
-                }) != 0;
+                    {
+                        cakeid = cakeid
+                    }) != 0;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -65,29 +73,38 @@ namespace BakeryApi.Respositories
 
         public bool InsertCake(Cake cake, LoginModel loginModel)
         {
-            using (var context = Bakery.Sql())
+            if (CustomerRepository.IsAdmin(loginModel))
             {
-                return context.Execute(@"
+                using (var context = Bakery.Sql())
+                {
+                    return context.Execute(@"
                     INSERT
                         Cakes (CakeName, CakeDescription, CakePrice, ImageId, AddedDate)
                     VALUES
                         (@cakename, @cakedescription, @cakeprice, @imageid, @addeddate)
                 ", new
-                {
-                    cakename = cake.CakeName,
-                    cakedescription = cake.CakeDescription,
-                    cakeprice = cake.CakePrice,
-                    imageid = cake.ImageId,
-                    addeddate = cake.AddedDate
-                }) != 0;
+                    {
+                        cakename = cake.CakeName,
+                        cakedescription = cake.CakeDescription,
+                        cakeprice = cake.CakePrice,
+                        imageid = cake.ImageId,
+                        addeddate = cake.AddedDate
+                    }) != 0;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
         public bool UpdateCake(Cake updateCake, LoginModel loginModel)
         {
-            using (var context = Bakery.Sql())
+            if (CustomerRepository.IsAdmin(loginModel))
             {
-                return context.Execute(@"
+                using (var context = Bakery.Sql())
+                {
+                    return context.Execute(@"
                     UPDATE 
                         Cakes
                     SET
@@ -99,14 +116,19 @@ namespace BakeryApi.Respositories
                     WHERE
                         CakeId = @cakeid
                 ", new
-                {
-                    cakeid = updateCake.CakeId,
-                    cakename = updateCake.CakeName,
-                    cakedescription = updateCake.CakeDescription,
-                    cakeprice = updateCake.CakePrice,
-                    imageid = updateCake.ImageId,
-                    addeddate = updateCake.AddedDate
-                }) != 0;
+                    {
+                        cakeid = updateCake.CakeId,
+                        cakename = updateCake.CakeName,
+                        cakedescription = updateCake.CakeDescription,
+                        cakeprice = updateCake.CakePrice,
+                        imageid = updateCake.ImageId,
+                        addeddate = updateCake.AddedDate
+                    }) != 0;
+                }
+            }
+            else
+            {
+                return false
             }
         }
     }

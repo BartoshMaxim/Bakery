@@ -34,7 +34,7 @@ namespace BakeryApi.Controllers
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "The identifier must be the same or greater than 0!"); ;
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "The identifier must be the same or greater than 0!");
                 }
             }
             else

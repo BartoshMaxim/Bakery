@@ -23,7 +23,5 @@ namespace BakeryApi.Interfaces
         bool IsExistsEmail(string email);
 
         bool IsExistsId(int id);
-
-        bool IsAdmin(LoginModel loginModel);
     }
 }
