@@ -10,9 +10,8 @@ namespace BakeryApi.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
-    using BakeryApi.Interfaces;
-    using BakeryApi.Repositories;
-    using BakeryApi.Respositories;
+    using global::Bakery.DB.Interfaces;
+    using global::Bakery.DB.Repositories;
 
     public static class NinjectWebCommon 
     {
