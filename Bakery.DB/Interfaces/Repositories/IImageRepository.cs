@@ -12,10 +12,10 @@ namespace Bakery.DB.Interfaces
 
         Image GetImage(int imageid);
 
-        bool InsertImage(Image image, LoginModel loginModel);
+        bool InsertImage(Image image);
 
-        bool DeleteImage(int imageid, LoginModel loginModel);
+        bool DeleteImage(int imageid);
 
-        bool UpdateImage(Image updateImage, LoginModel loginModel);
+        bool UpdateImage(Image updateImage);
     }
 }

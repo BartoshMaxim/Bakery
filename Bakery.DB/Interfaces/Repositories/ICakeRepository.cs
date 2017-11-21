@@ -12,10 +12,10 @@ namespace Bakery.DB.Interfaces
 
         Cake GetCake(int cakeid);
 
-        bool InsertCake(Cake cake, LoginModel loginModel);
+        bool InsertCake(ICake cake);
 
-        bool DeleteCake(int cakeid, LoginModel loginModel);
+        bool DeleteCake(int cakeid);
 
-        bool UpdateCake(Cake updateCake, LoginModel loginModel);
+        bool UpdateCake(ICake updateCake);
     }
 }

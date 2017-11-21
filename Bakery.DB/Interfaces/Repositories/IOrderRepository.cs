@@ -14,10 +14,10 @@ namespace Bakery.DB.Interfaces
 
         FullOrder GetFullOrder(int orderid);
 
-        bool InsertOrder(Order order, LoginModel loginModel);
+        bool InsertOrder(Order order);
 
-        bool DeleteOrder(int orderid, LoginModel loginModel);
+        bool DeleteOrder(int orderid);
 
-        bool UpdateOrder(Order updateOrder, LoginModel loginModel);
+        bool UpdateOrder(Order updateOrder);
     }
 }

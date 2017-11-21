@@ -22,8 +22,13 @@ namespace AdminDashboard.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel login)
         {
+            if(ModelState.IsValid)
+            {
+
+            }
             return View(login);
         }
 

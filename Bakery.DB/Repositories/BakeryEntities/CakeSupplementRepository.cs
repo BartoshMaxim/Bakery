@@ -7,7 +7,7 @@ namespace Bakery.DB.Repositories
 {
     public class CakeSupplementRepository : ICakeSupplementRepository
     {
-        public bool DeleteCakeSupplementReference(int cakeid, int supplementid, LoginModel loginModel)
+        public bool DeleteCakeSupplementReference(int cakeid, int supplementid)
         {
             using (var context = Bakery.Sql())
             {
@@ -64,7 +64,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertCakeSupplementReference(int cakeid, int supplementid, LoginModel loginModel)
+        public bool InsertCakeSupplementReference(int cakeid, int supplementid)
         {
             using (var context = Bakery.Sql())
             {

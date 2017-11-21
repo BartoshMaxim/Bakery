@@ -12,10 +12,10 @@ namespace Bakery.DB.Interfaces
 
         Supplement GetSupplement(int supplementid);
 
-        bool InsertSupplement(Supplement supplement, LoginModel loginModel);
+        bool InsertSupplement(Supplement supplement);
 
-        bool DeleteSupplement(int supplementid, LoginModel loginModel);
+        bool DeleteSupplement(int supplementid);
 
-        bool UpdateSupplement(Supplement updateSupplement, LoginModel loginModel);
+        bool UpdateSupplement(Supplement updateSupplement);
     }
 }

@@ -132,37 +132,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\BakeryEntities\ICakeImageRepository.cs" />
-    <Compile Include="Interfaces\BakeryEntities\ICakeRepository.cs" />
-    <Compile Include="Interfaces\BakeryEntities\ICakeSupplementRepository.cs" />
-    <Compile Include="Interfaces\BakeryEntities\ICustomerRepository.cs" />
-    <Compile Include="Interfaces\BakeryEntities\IImageRepository.cs" />
-    <Compile Include="Interfaces\BakeryEntities\IOrderRepository.cs" />
-    <Compile Include="Interfaces\BakeryEntities\IOrderTypeRepository.cs" />
-    <Compile Include="Interfaces\BakeryEntities\IRoleTypeRepository.cs" />
-    <Compile Include="Interfaces\BakeryEntities\ISupplementRepository.cs" />
-    <Compile Include="Models\BakeryEntities\Cake.cs" />
-    <Compile Include="Models\BakeryEntities\CakeImage.cs" />
-    <Compile Include="Models\BakeryEntities\CakeSupplement.cs" />
-    <Compile Include="Models\BakeryEntities\Customer.cs" />
-    <Compile Include="Models\BakeryEntities\Image.cs" />
-    <Compile Include="Models\BakeryEntities\Order.cs" />
-    <Compile Include="Models\BakeryEntities\OrderType.cs" />
-    <Compile Include="Models\BakeryEntities\RoleType.cs" />
-    <Compile Include="Models\BakeryEntities\Supplement.cs" />
-    <Compile Include="Models\ControllerEntities\CustomerControllerEntities.cs" />
-    <Compile Include="Models\IdentityEntities\CustomerIdentity.cs" />
-    <Compile Include="Models\IdentityEntities\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\BakeryEntities\CakeImageRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\CakeRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\CakeSupplementRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\CustomerRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\ImageRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\OrderRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\OrderTypeRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\RoleTypeRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\SupplementRepository.cs" />
     <Compile Include="Settings\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -174,7 +144,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Bakery.DB\Bakery.DB.csproj">
+      <Project>{D56DFC14-825D-429C-9457-8B8639D128A0}</Project>
+      <Name>Bakery.DB</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

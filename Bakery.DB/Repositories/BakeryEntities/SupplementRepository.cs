@@ -8,7 +8,7 @@ namespace Bakery.DB.Repositories
 {
     public class SupplementRepository : ISupplementRepository
     {
-        public bool DeleteSupplement(int supplementid, LoginModel loginModel)
+        public bool DeleteSupplement(int supplementid)
         {
             using (var context = Bakery.Sql())
             {
@@ -60,7 +60,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertSupplement(Supplement supplement, LoginModel loginModel)
+        public bool InsertSupplement(Supplement supplement)
         {
             using (var context = Bakery.Sql())
             {
@@ -78,7 +78,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool UpdateSupplement(Supplement updateSupplement, LoginModel loginModel)
+        public bool UpdateSupplement(Supplement updateSupplement)
         {
             using (var context = Bakery.Sql())
             {

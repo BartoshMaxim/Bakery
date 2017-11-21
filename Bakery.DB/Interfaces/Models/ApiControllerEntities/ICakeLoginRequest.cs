@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bakery.DB.Models.ControllerEntities
+namespace Bakery.DB.Interfaces
 {
-    class CakeControllerEntities
+    public interface ICakeLoginRequest: ICake, ILoginModel
     {
     }
 }

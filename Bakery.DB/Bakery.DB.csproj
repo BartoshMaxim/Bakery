@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Bakery\Sql.cs" />
+    <Compile Include="Interfaces\Models\ApiControllerEntities\ICakeLoginRequest.cs" />
     <Compile Include="Interfaces\Models\BakeryEntities\ICake.cs" />
     <Compile Include="Interfaces\Models\BakeryEntities\ICakeImage.cs" />
     <Compile Include="Interfaces\Models\BakeryEntities\ICakeSupplement.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Interfaces\Models\BakeryEntities\IImage.cs" />
     <Compile Include="Interfaces\Models\BakeryEntities\IOrder.cs" />
     <Compile Include="Interfaces\Models\BakeryEntities\ISupplement.cs" />
-    <Compile Include="Interfaces\Models\ControllerEntities\ICustomerLoginRequest.cs" />
+    <Compile Include="Interfaces\Models\ApiControllerEntities\ICustomerLoginRequest.cs" />
     <Compile Include="Interfaces\Models\IdentityEntities\ILoginModel.cs" />
     <Compile Include="Interfaces\Repositories\ICakeImageRepository.cs" />
     <Compile Include="Interfaces\Repositories\ICakeRepository.cs" />
@@ -87,8 +88,8 @@
     <Compile Include="Models\BakeryEntities\OrderType.cs" />
     <Compile Include="Models\BakeryEntities\RoleType.cs" />
     <Compile Include="Models\BakeryEntities\Supplement.cs" />
-    <Compile Include="Models\ControllerEntities\CakeControllerEntities.cs" />
-    <Compile Include="Models\ControllerEntities\CustomerControllerEntities.cs" />
+    <Compile Include="Models\ApiControllerEntities\CakeControllerEntities.cs" />
+    <Compile Include="Models\ApiControllerEntities\CustomerControllerEntities.cs" />
     <Compile Include="Models\IdentityEntities\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BakeryEntities\BakeryRepository.cs" />

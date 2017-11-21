@@ -1,4 +1,6 @@
-﻿using BakeryApi.Interfaces;
+﻿using Bakery.DB;
+using Bakery.DB.Interfaces;
+using Bakery.DB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +14,12 @@ namespace BakeryApi.Controllers
     {
         private readonly ICakeRepository _cakeRepository;
 
-        public CakeController(ICakeRepository cakeRepository)
+        private readonly ICustomerRepository _customerRepository;
+
+        public CakeController(ICakeRepository cakeRepository, ICustomerRepository customerRepository)
         {
             _cakeRepository = cakeRepository;
+            _customerRepository = customerRepository;
         }
 
         // GET: api/Cake
@@ -66,14 +71,46 @@ namespace BakeryApi.Controllers
             }
         }
 
-        // PUT: api/Cake/5
-        public void Put(int id, [FromBody]string value)
+
+        public HttpResponseMessage Put([FromBody]CakeLoginRequest cakeLogin)
         {
+            if (ModelState.IsValid && _customerRepository.IsAdmin(cakeLogin))
+            {
+                var result = _cakeRepository.InsertCake(cakeLogin);
+                if (result)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The cake was added");
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The cake was not added");
+                }
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid credentials!");
+            }
         }
 
-        // DELETE: api/Cake/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id, [FromBody]LoginModel loginModel)
         {
+            if (ModelState.IsValid && _customerRepository.IsAdmin(loginModel))
+            {
+
+                var result = _cakeRepository.DeleteCake(id);
+                if (result)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The cake with {id} ID was deleted!");
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The cake with {id} ID was not deleted");
+                }
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid credentials!");
+            }
         }
     }
 }

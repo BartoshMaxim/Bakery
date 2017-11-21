@@ -12,8 +12,8 @@ namespace Bakery.DB.Interfaces
 
         int GetCakeImageId(int cakeid, int imageid);
 
-        bool InsertCakeImageReference(int cakeid, int imageid, LoginModel loginModel);
+        bool InsertCakeImageReference(int cakeid, int imageid);
 
-        bool DeleteCakeImageReference(int cakeid, int imageid, LoginModel loginModel);
+        bool DeleteCakeImageReference(int cakeid, int imageid);
     }
 }

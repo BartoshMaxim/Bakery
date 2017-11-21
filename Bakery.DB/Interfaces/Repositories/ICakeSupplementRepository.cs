@@ -12,8 +12,8 @@ namespace Bakery.DB.Interfaces
 
         int GetCakeSupplementId(int cakeid, int supplementid);
 
-        bool InsertCakeSupplementReference(int cakeid, int supplementid, LoginModel loginModel);
+        bool InsertCakeSupplementReference(int cakeid, int supplementid);
 
-        bool DeleteCakeSupplementReference(int cakeid, int supplementid, LoginModel loginModel);
+        bool DeleteCakeSupplementReference(int cakeid, int supplementid);
     }
 }

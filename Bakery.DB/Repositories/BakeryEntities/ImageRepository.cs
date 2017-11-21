@@ -8,7 +8,7 @@ namespace Bakery.DB.Repositories
 {
     public class ImageRepository : IImageRepository
     {
-        public bool DeleteImage(int imageid, LoginModel loginModel)
+        public bool DeleteImage(int imageid)
         {
             using (var context = Bakery.Sql())
             {
@@ -58,7 +58,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertImage(Image image, LoginModel loginModel)
+        public bool InsertImage(Image image)
         {
             using (var context = Bakery.Sql())
             {
@@ -75,7 +75,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool UpdateImage(Image updateImage, LoginModel loginModel)
+        public bool UpdateImage(Image updateImage)
         {
             using (var context = Bakery.Sql())
             {

@@ -8,7 +8,7 @@ namespace Bakery.DB.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        public bool DeleteOrder(int orderid, LoginModel loginModel)
+        public bool DeleteOrder(int orderid)
         {
             using (var context = Bakery.Sql())
             {
@@ -110,7 +110,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertOrder(Order order, LoginModel loginModel)
+        public bool InsertOrder(Order order)
         {
             using (var context = Bakery.Sql())
             {
@@ -128,7 +128,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool UpdateOrder(Order updateOrder, LoginModel loginModel)
+        public bool UpdateOrder(Order updateOrder)
         {
             using (var context = Bakery.Sql())
             {
