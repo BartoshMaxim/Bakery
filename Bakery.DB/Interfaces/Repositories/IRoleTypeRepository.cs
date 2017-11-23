@@ -10,6 +10,6 @@ namespace Bakery.DB.Interfaces
     {
         List<RoleType> GetRoleTypes();
 
-        RoleType GetOrder(int roletypeid);
+        List<ICustomer> GetCustomers(int roletypeid)
     }
 }

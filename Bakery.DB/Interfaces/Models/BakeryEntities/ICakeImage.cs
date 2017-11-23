@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bakery.DB.Interfaces
 {
-    interface ICakeImage
+    public interface ICakeImage
     {
         int CakeImageId { get; set; }
 

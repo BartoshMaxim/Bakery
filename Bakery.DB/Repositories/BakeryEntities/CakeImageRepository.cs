@@ -7,7 +7,7 @@ namespace Bakery.DB.Repositories
 {
     public class CakeImageRepository : ICakeImageRepository
     {
-        public bool DeleteCakeImageReference(int cakeid, int imageid)
+        public bool DeleteCakeImageReference(ICakeImage cakeImage)
         {
             using (var context = Bakery.Sql())
             {
@@ -19,13 +19,28 @@ namespace Bakery.DB.Repositories
                         ImageId = @imageid
                 ", new
                 {
-                    cakeid = cakeid,
-                    imageid = imageid
+                    cakeid = cakeImage.CakeId,
+                    imageid = cakeImage.ImageId
                 }) != 0;
             }
         }
 
-        public int GetCakeImageId(int cakeid, int imageid)
+        public bool DeleteCakeImageReference(int cakeImageId)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.Execute(@"
+                    DELETE FROM CakeImages
+                    WHERE
+                        CakeImageId = @cakeImageId
+                ", new
+                {
+                    cakeImageId = cakeImageId
+                }) != 0;
+            }
+        }
+
+        public int GetCakeImageId(ICakeImage cakeImage)
         {
             using (var context = Bakery.Sql())
             {
@@ -40,17 +55,17 @@ namespace Bakery.DB.Repositories
                         ImageId = @imageid
                 ", new
                 {
-                    cakeid = cakeid,
-                    imageid = imageid
+                    cakeid = cakeImage.CakeId,
+                    imageid = cakeImage.ImageId
                 });
             }
         }
 
-        public List<Image> GetImages(int cakeid)
+        public List<IImage> GetImages(int cakeid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<Image>(@"
+                return context.Query<IImage>(@"
                     SELECT
                         i.ImageId
                         ,i.ImageName
@@ -64,23 +79,65 @@ namespace Bakery.DB.Repositories
                         ", new
                 {
                     cakeid = cakeid
-                }).ToList(); 
+                }).ToList();
             }
         }
 
-        public bool InsertCakeImageReference(int cakeid, int imageid)
+        public bool InsertCakeImageReference(ICakeImage cakeImage)
         {
+            cakeImage.CakeImageId = GetIdForNextCakeImage();
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"
                     INSERT
-                        CakeImages (CakeId, ImageId)
+                        CakeImages (CakeImageId, CakeId, ImageId)
                     VALUES
-                        (@cakeid, @imageid)
+                        (@cakeimageid, @cakeid, @imageid)
                     ", new
                 {
-                    cakeid = cakeid,
-                    imageid = imageid
+                    cakeimageid = cakeImage.CakeImageId,
+                    cakeid = cakeImage.CakeId,
+                    imageid = cakeImage.ImageId
+                }) != 0;
+            }
+        }
+
+        public int GetCountRows()
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(CakeImageId)       
+                    FROM 
+                        CakeImages");
+            }
+        }
+
+        private int GetIdForNextCakeImage()
+        {
+            var cakeImageID = GetCountRows();
+
+            while (IsExists(cakeImageID))
+            {
+                cakeImageID++;
+            }
+            return cakeImageID;
+        }
+
+        public bool IsExists(int cakeimageid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                SELECT COUNT(CakeImageId)
+                FROM
+                    CakeImages
+                WHERE
+                    CakeImageId = @cakeimageid
+                ", new
+                {
+                    cakeimageid = cakeimageid
                 }) != 0;
             }
         }

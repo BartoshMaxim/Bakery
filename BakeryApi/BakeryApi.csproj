@@ -128,7 +128,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CakeController.cs" />
     <Compile Include="Controllers\CakeImageController.cs" />
+    <Compile Include="Controllers\CakeSupplementController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrderTypeController.cs" />
+    <Compile Include="Controllers\RoleTypeController.cs" />
+    <Compile Include="Controllers\SupplementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

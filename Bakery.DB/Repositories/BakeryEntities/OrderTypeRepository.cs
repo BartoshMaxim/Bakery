@@ -8,13 +8,19 @@ namespace Bakery.DB.Repositories
 {
     public class OrderTypeRepository : IOrderTypeRepository
     {
-        public OrderType GetOrder(int ordertypeid)
+        public List<IOrder> GetOrders(int ordertypeid)
         {
             using (var context = Bakery.Sql())
             {
-                return (OrderType) context.ExecuteScalar<int>(@"
+                return context.Query<IOrder>(@"
                     SELECT
-                        OrderTypeId
+                        OrderId,
+                        CakeId,
+                        OrderTypeId,
+                        CustomerId,
+                        OrderWeight,
+                        OrderDate,
+                        OrderType = OrderTypeId
                     FROM
                         OrderTypes
                     WHERE
@@ -22,7 +28,7 @@ namespace Bakery.DB.Repositories
                 ", new
                 {
                     ordertypeid = ordertypeid
-                });
+                }).ToList();
             }
         }
 

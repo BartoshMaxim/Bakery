@@ -7,31 +7,32 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 
 namespace BakeryApi.Controllers
 {
-    public class CustomerController : ApiController
+    public class OrderController : ApiController
     {
+        private readonly IOrderRepository _orderRepository;
+
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerController(ICustomerRepository customerRepository)
+        public OrderController(IOrderRepository orderRepository,ICustomerRepository customerRepository)
         {
+            _orderRepository = orderRepository;
             _customerRepository = customerRepository;
         }
 
-        // GET: api/Customer/5
         public HttpResponseMessage Post(int id, [FromBody]LoginModel loginModel)
         {
             if (ModelState.IsValid && _customerRepository.IsAdmin(loginModel))
             {
                 if (id >= 0)
                 {
-                    var customer = _customerRepository.GetCustomer(id);
+                    var order = _orderRepository.GetOrder(id);
 
-                    return customer != null ?
-                        Request.CreateResponse(HttpStatusCode.OK, customer)
-                        : Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Can not find the customer with {id} ID");
+                    return order != null ?
+                        Request.CreateResponse(HttpStatusCode.OK, order)
+                        : Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Can not find the order with {id} ID");
                 }
                 else
                 {
@@ -48,9 +49,9 @@ namespace BakeryApi.Controllers
         {
             if (ModelState.IsValid && _customerRepository.IsAdmin(loginModel))
             {
-                var customers = _customerRepository.GetCustomers();
+                var orders = _orderRepository.GetOrders();
 
-                return customers != null ? Request.CreateResponse(HttpStatusCode.OK, customers)
+                return orders != null ? Request.CreateResponse(HttpStatusCode.OK, orders)
                                         : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can not found customers");
             }
             else
@@ -59,18 +60,18 @@ namespace BakeryApi.Controllers
             }
         }
 
-        public HttpResponseMessage Put([FromBody]CustomerLoginRequest customerLogin)
+        public HttpResponseMessage Put([FromBody]OrderLoginRequest orderLogin)
         {
-            if (ModelState.IsValid && _customerRepository.IsAdmin(customerLogin))
+            if (ModelState.IsValid && _customerRepository.IsAdmin(orderLogin))
             {
-                var result = _customerRepository.InsertCustomer(customerLogin);
+                var result = _orderRepository.InsertOrder(orderLogin);
                 if (result)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, $"The customer was added");
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The order was added");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The customer was not added");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The order was not added");
                 }
             }
             else
@@ -84,14 +85,14 @@ namespace BakeryApi.Controllers
             if (ModelState.IsValid && _customerRepository.IsAdmin(loginModel))
             {
 
-                var result = _customerRepository.DeleteCustomer(id);
+                var result = _orderRepository.DeleteOrder(id);
                 if (result)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, $"The customer with {id} ID was deleted!");
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The order with {id} ID was deleted!");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The customer with {id} ID was not deleted");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The order with {id} ID was not deleted");
                 }
             }
             else

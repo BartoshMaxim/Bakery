@@ -23,11 +23,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public Image GetImage(int imageid)
+        public IImage GetImage(int imageid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.ExecuteScalar<Image>(@"
+                return context.ExecuteScalar<IImage>(@"
                     SELECT
                         ImageId
                         ,ImageName
@@ -43,11 +43,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<Image> GetImages()
+        public List<IImage> GetImages()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<Image>(@"
+                return context.Query<IImage>(@"
                     SELECT
                         ImageId
                         ,ImageName
@@ -58,24 +58,27 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertImage(Image image)
+        public bool InsertImage(IImage image)
         {
+            image.ImageId = GetIdForNextImage();
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"
                     INSERT 
-                        Images(ImageName, ImagePath)
+                        Images(ImageId, ImageName, ImagePath)
                     VALUES
-                        (@imagename, @imagepath)
+                        (@imageid, @imagename, @imagepath)
                 ", new
                 {
+                    imageid = image.ImageId,
                     imagename = image.ImageName,
                     imagepath = image.ImagePath
                 }) != 0;
             }
         }
 
-        public bool UpdateImage(Image updateImage)
+        public bool UpdateImage(IImage updateImage)
         {
             using (var context = Bakery.Sql())
             {
@@ -89,6 +92,45 @@ namespace Bakery.DB.Repositories
                 {
                     imagename = updateImage.ImageName,
                     imagepath = updateImage.ImagePath
+                }) != 0;
+            }
+        }
+
+        public int GetCountRows()
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(ImageId)       
+                    FROM 
+                        Images");
+            }
+        }
+
+        private int GetIdForNextImage()
+        {
+            var imageID = GetCountRows();
+
+            while (IsExists(imageID))
+            {
+                imageID++;
+            }
+            return imageID;
+        }
+
+        public bool IsExists(int imageid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                SELECT COUNT(ImageId)
+                FROM
+                    Images
+                WHERE
+                    ImageId = @imageid
+                ", new
+                {
+                    imageid = imageid
                 }) != 0;
             }
         }

@@ -23,11 +23,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public Cake GetCake(int cakeid)
+        public ICake GetCake(int cakeid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.ExecuteScalar<Cake>(@"
+                return context.ExecuteScalar<ICake>(@"
                     SELECT
                         CakeId
                         ,CakeName
@@ -46,11 +46,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<Cake> GetCakes()
+        public List<ICake> GetCakes()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<Cake>(@"
+                return context.Query<ICake>(@"
                     SELECT
                         CakeId
                         ,CakeName
@@ -65,15 +65,19 @@ namespace Bakery.DB.Repositories
 
         public bool InsertCake(ICake cake)
         {
+            cake.CakeId = GetIdForNextCake();
+            cake.AddedDate = DateTime.Now;
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"
                     INSERT
-                        Cakes (CakeName, CakeDescription, CakePrice, ImageId, AddedDate)
+                        Cakes (CakeId, CakeName, CakeDescription, CakePrice, ImageId, AddedDate)
                     VALUES
-                        (@cakename, @cakedescription, @cakeprice, @imageid, @addeddate)
+                        (@cakeid, @cakename, @cakedescription, @cakeprice, @imageid, @addeddate)
                 ", new
                 {
+                    cakeid = cake.CakeId,
                     cakename = cake.CakeName,
                     cakedescription = cake.CakeDescription,
                     cakeprice = cake.CakePrice,
@@ -106,6 +110,45 @@ namespace Bakery.DB.Repositories
                     cakeprice = updateCake.CakePrice,
                     imageid = updateCake.ImageId,
                     addeddate = updateCake.AddedDate
+                }) != 0;
+            }
+        }
+
+        public int GetCountRows()
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(CakeId)       
+                    FROM 
+                        Cakes");
+            }
+        }
+
+        private int GetIdForNextCake()
+        {
+            var cakeID = GetCountRows();
+
+            while (IsExists(cakeID))
+            {
+                cakeID++;
+            }
+            return cakeID;
+        }
+
+        public bool IsExists(int cakeid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                SELECT COUNT(CakeId)
+                FROM
+                    Cakes
+                WHERE
+                    CakeId = @cakeid
+                ", new
+                {
+                    cakeid = cakeid
                 }) != 0;
             }
         }

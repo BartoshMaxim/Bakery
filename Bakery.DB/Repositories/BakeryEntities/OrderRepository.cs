@@ -23,11 +23,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public Order GetOrder(int orderid)
+        public IOrder GetOrder(int orderid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.ExecuteScalar<Order>(@"
+                return context.ExecuteScalar<IOrder>(@"
                     SELECT
                         OrderId
                         ,CustomerId
@@ -60,6 +60,7 @@ namespace Bakery.DB.Repositories
                         ,ca.CakePrice
                         ,ca.ImageId
                         ,ca.AddedDate
+                        
                         ,c.CustomerId
                         ,c.FirstName
                         ,c.LastName
@@ -94,11 +95,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<Order> GetOrders()
+        public List<IOrder> GetOrders()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<Order>(@"
+                return context.Query<IOrder>(@"
                     SELECT
                         OrderId
                         ,CustomerId,
@@ -110,16 +111,20 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertOrder(Order order)
+        public bool InsertOrder(IOrder order)
         {
+            order.OrderId = GetIdForNextOrder();
+            order.OrderDate = DateTime.Now;
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"
                     INSERT
-                        Orders(CakeId, CustomerId, OrderWeight, OrderDate)
-                    VALUES (@cakeid, @customerid, @orderweight, @orderdate)
+                        Orders(OrderId, CakeId, CustomerId, OrderWeight, OrderDate)
+                    VALUES (@orderid, @cakeid, @customerid, @orderweight, @orderdate)
                 ", new
                 {
+                    orderid = order.OrderId,
                     cakeid = order.CakeId,
                     customerid = order.CustomerId,
                     orderweight = order.OrderWeight,
@@ -128,7 +133,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool UpdateOrder(Order updateOrder)
+        public bool UpdateOrder(IOrder updateOrder)
         {
             using (var context = Bakery.Sql())
             {
@@ -150,6 +155,45 @@ namespace Bakery.DB.Repositories
                     orderweight = updateOrder.OrderWeight,
                     orderdate = updateOrder.OrderDate
                 }) != 0;
+            }
+        }
+
+        private int GetIdForNextOrder()
+        {
+            var orderID = GetCountRows();
+
+            while (IsExists(orderID))
+            {
+                orderID++;
+            }
+            return orderID;
+        }
+
+        public bool IsExists(int orderid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                SELECT COUNT(OrderId)
+                FROM
+                    Orders
+                WHERE
+                    OrderId = @orderid
+                ", new
+                {
+                    orderid = orderid
+                }) != 0;
+            }
+        }
+
+        public int GetCountRows()
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(OrderId)       
+                    FROM 
+                        Orders");
             }
         }
     }

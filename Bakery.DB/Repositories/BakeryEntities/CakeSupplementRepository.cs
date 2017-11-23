@@ -7,7 +7,7 @@ namespace Bakery.DB.Repositories
 {
     public class CakeSupplementRepository : ICakeSupplementRepository
     {
-        public bool DeleteCakeSupplementReference(int cakeid, int supplementid)
+        public bool DeleteCakeSupplementReference(ICakeSupplement cakeSupplement)
         {
             using (var context = Bakery.Sql())
             {
@@ -19,8 +19,23 @@ namespace Bakery.DB.Repositories
                         SupplementId = @supplementid
                 ", new
                 {
-                    cakeid = cakeid,
-                    supplementid = supplementid
+                    cakeid = cakeSupplement.CakeId,
+                    supplementid = cakeSupplement.SupplementId
+                }) != 0;
+            }
+        }
+
+        public bool DeleteCakeSupplementReference(int cakesupplementid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.Execute(@"
+                    DELETE FROM CakeSupplements
+                    WHERE
+                        CakeSupplementId = @cakesupplementid
+                ", new
+                {
+                    cakesupplementid = cakesupplementid,
                 }) != 0;
             }
         }
@@ -46,11 +61,31 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<Supplement> GetSupplements(int cakeid)
+        public ICakeSupplement GetCakeSupplement(int cakesupplementid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<Supplement>(@"
+                return context.ExecuteScalar<ICakeSupplement>(@"
+                    SELECT
+                        CakeSupplementId,
+                        SupplementId,
+                        CakeId
+                    FROM
+                        CakeSupplements
+                    WHERE
+                        CakeSupplementId = @cakesupplementid
+                ", new
+                {
+                    cakesupplementid = cakesupplementid
+                });
+            }
+        }
+
+        public List<ISupplement> GetSupplements(int cakeid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<ISupplement>(@"
                     SELECT
                         s.SupplementId
                         ,s.SupplementName
@@ -64,19 +99,61 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertCakeSupplementReference(int cakeid, int supplementid)
+        public bool InsertCakeSupplementReference(ICakeSupplement cakeSupplement)
         {
+            cakeSupplement.CakeSupplementId = GetIdForNextCakeSupplement();
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"
                     INSERT
-                        CakeSupplements (CakeId, SupplementId)
+                        CakeSupplements (CakeSupplementId, CakeId, SupplementId)
                     VALUES
-                        (@cakeid, @supplementid)
+                        (@cakesupplementid, @cakeid, @supplementid)
                     ", new
                 {
-                    cakeid = cakeid,
-                    supplementid = supplementid
+                    cakesupplementid = cakeSupplement.CakeSupplementId,
+                    cakeid = cakeSupplement.CakeId,
+                    supplementid = cakeSupplement.SupplementId
+                }) != 0;
+            }
+        }
+
+        public int GetCountRows()
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(CakeSupplementId)       
+                    FROM 
+                        CakeSupplements");
+            }
+        }
+
+        private int GetIdForNextCakeSupplement()
+        {
+            var cakeSupplementID = GetCountRows();
+
+            while (IsExists(cakeSupplementID))
+            {
+                cakeSupplementID++;
+            }
+            return cakeSupplementID;
+        }
+
+        public bool IsExists(int cakesuppmentid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                SELECT COUNT(CakeSupplementId)
+                FROM
+                    CakeSupplements
+                WHERE
+                    CakeSupplementId = @cakesuppmentid
+                ", new
+                {
+                    cakesuppmentid = cakesuppmentid
                 }) != 0;
             }
         }

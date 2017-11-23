@@ -8,14 +8,14 @@ namespace Bakery.DB.Interfaces
 {
     public interface ISupplementRepository
     {
-        List<Supplement> GetSupplements();
+        List<ISupplement> GetSupplements();
 
-        Supplement GetSupplement(int supplementid);
+        ISupplement GetSupplement(int supplementid);
 
-        bool InsertSupplement(Supplement supplement);
+        bool InsertSupplement(ISupplement supplement);
 
         bool DeleteSupplement(int supplementid);
 
-        bool UpdateSupplement(Supplement updateSupplement);
+        bool UpdateSupplement(ISupplement updateSupplement);
     }
 }

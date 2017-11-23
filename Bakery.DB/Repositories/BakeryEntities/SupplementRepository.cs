@@ -23,7 +23,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public Supplement GetSupplement(int supplementid)
+        public ISupplement GetSupplement(int supplementid)
         {
             using (var context = Bakery.Sql())
             {
@@ -44,11 +44,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<Supplement> GetSupplements()
+        public List<ISupplement> GetSupplements()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<Supplement>(@"
+                return context.Query<ISupplement>(@"
                     SELECT
                         SupplementId
                         ,SupplementName
@@ -60,7 +60,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertSupplement(Supplement supplement)
+        public bool InsertSupplement(ISupplement supplement)
         {
             using (var context = Bakery.Sql())
             {
@@ -78,7 +78,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool UpdateSupplement(Supplement updateSupplement)
+        public bool UpdateSupplement(ISupplement updateSupplement)
         {
             using (var context = Bakery.Sql())
             {

@@ -8,14 +8,14 @@ namespace Bakery.DB.Interfaces
 {
     public interface IImageRepository
     {
-        List<Image> GetImages();
+        List<IImage> GetImages();
 
-        Image GetImage(int imageid);
+        IImage GetImage(int imageid);
 
-        bool InsertImage(Image image);
+        bool InsertImage(IImage image);
 
         bool DeleteImage(int imageid);
 
-        bool UpdateImage(Image updateImage);
+        bool UpdateImage(IImage updateImage);
     }
 }

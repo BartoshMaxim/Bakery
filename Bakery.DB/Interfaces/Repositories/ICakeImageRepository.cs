@@ -8,12 +8,18 @@ namespace Bakery.DB.Interfaces
 {
     public interface ICakeImageRepository
     {
-        List<Image> GetImages(int cakeid);
+        List<IImage> GetImages(int cakeid);
 
-        int GetCakeImageId(int cakeid, int imageid);
+        int GetCakeImageId(ICakeImage cakeImage);
 
-        bool InsertCakeImageReference(int cakeid, int imageid);
+        bool InsertCakeImageReference(ICakeImage cakeImage);
 
-        bool DeleteCakeImageReference(int cakeid, int imageid);
+        bool DeleteCakeImageReference(ICakeImage cakeImage);
+
+        bool DeleteCakeImageReference(int cakeImageId);
+
+        bool IsExists(int cakeimageid);
+
+        int GetCountRows();
     }
 }

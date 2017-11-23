@@ -8,14 +8,16 @@ namespace Bakery.DB.Interfaces
 {
     public interface ICakeRepository
     {
-        List<Cake> GetCakes();
+        List<ICake> GetCakes();
 
-        Cake GetCake(int cakeid);
+        ICake GetCake(int cakeid);
 
         bool InsertCake(ICake cake);
 
         bool DeleteCake(int cakeid);
 
         bool UpdateCake(ICake updateCake);
+
+        bool IsExists(int cakeid);
     }
 }

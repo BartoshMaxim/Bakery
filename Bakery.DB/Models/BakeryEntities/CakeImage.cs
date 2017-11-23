@@ -2,7 +2,7 @@
 
 namespace Bakery.DB
 {
-    public class CakeImage: ICakeImage
+    public class CakeImage : ICakeImage
     {
         public int CakeImageId { get; set; }
 

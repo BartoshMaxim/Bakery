@@ -1,21 +1,24 @@
 ﻿using Bakery.DB;
 using Bakery.DB.Interfaces;
 using Bakery.DB.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
 namespace BakeryApi.Controllers
 {
-    public class CakeImageController : ApiController
+    public class CakeSupplementController : ApiController
     {
-        private readonly ICakeImageRepository _cakeImageRepository;
+        private readonly ICakeSupplementRepository _cakeSupplementRepository;
 
         private readonly ICustomerRepository _customerRepository;
 
-        public CakeImageController(ICakeImageRepository cakeImageRepository, ICustomerRepository customerRepository)
+        public CakeSupplementController(ICakeSupplementRepository cakeSupplementRepository, ICustomerRepository customerRepository)
         {
-            _cakeImageRepository = cakeImageRepository;
+            _cakeSupplementRepository = cakeSupplementRepository;
             _customerRepository = customerRepository;
         }
 
@@ -23,10 +26,10 @@ namespace BakeryApi.Controllers
         {
             if (id >= 0)
             {
-                var cake = _cakeImageRepository.GetImages(id);
-                return cake != null ?
-                    Request.CreateResponse(HttpStatusCode.OK, cake)
-                    : Request.CreateResponse(HttpStatusCode.BadRequest, $"Can not find images of the cake with {id} ID!");
+                var supplements = _cakeSupplementRepository.GetSupplements(id);
+                return supplements != null ?
+                    Request.CreateResponse(HttpStatusCode.OK, supplements)
+                    : Request.CreateResponse(HttpStatusCode.BadRequest, $"Can not find supplements of the cake with {id} ID!");
             }
             else
             {
@@ -38,10 +41,10 @@ namespace BakeryApi.Controllers
         {
             if (id >= 0)
             {
-                var cake = _cakeImageRepository.GetImages(id);
-                return cake != null ?
-                    Request.CreateResponse(HttpStatusCode.OK, cake)
-                    : Request.CreateResponse(HttpStatusCode.BadRequest, $"Can not find images of the cake with {id} ID!");
+                var supplements = _cakeSupplementRepository.GetSupplements(id);
+                return supplements != null ?
+                    Request.CreateResponse(HttpStatusCode.OK, supplements)
+                    : Request.CreateResponse(HttpStatusCode.BadRequest, $"Can not find supplements of the cake with {id} ID!");
             }
             else
             {
@@ -50,11 +53,11 @@ namespace BakeryApi.Controllers
         }
 
 
-        public HttpResponseMessage Put([FromBody]CakeImageLoginRequest cakeImageLogin)
+        public HttpResponseMessage Put([FromBody]CakeSupplementLoginRequest cakeImageLogin)
         {
             if (ModelState.IsValid && _customerRepository.IsAdmin(cakeImageLogin))
             {
-                var result = _cakeImageRepository.InsertCakeImageReference(cakeImageLogin);
+                var result = _cakeSupplementRepository.InsertCakeSupplementReference(cakeImageLogin);
                 if (result)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, $"The cakeimage was added");
@@ -75,14 +78,14 @@ namespace BakeryApi.Controllers
             if (ModelState.IsValid && _customerRepository.IsAdmin(loginModel))
             {
 
-                var result = _cakeImageRepository.DeleteCakeImageReference(id);
+                var result = _cakeSupplementRepository.DeleteCakeSupplementReference(id);
                 if (result)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, $"The image with {id} ID was deleted!");
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The cakesupplement with {id} ID was deleted!");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The image with {id} ID was not deleted");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The cakesupplement with {id} ID was not deleted");
                 }
             }
             else
@@ -91,19 +94,19 @@ namespace BakeryApi.Controllers
             }
         }
 
-        public HttpResponseMessage Delete([FromBody]CakeImageLoginRequest cakeImageLogin)
+        public HttpResponseMessage Delete([FromBody]CakeSupplementLoginRequest cakeSupplementLogin)
         {
-            if (ModelState.IsValid && _customerRepository.IsAdmin(cakeImageLogin))
+            if (ModelState.IsValid && _customerRepository.IsAdmin(cakeSupplementLogin))
             {
 
-                var result = _cakeImageRepository.DeleteCakeImageReference(cakeImageLogin);
+                var result = _cakeSupplementRepository.DeleteCakeSupplementReference(cakeSupplementLogin);
                 if (result)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, $"The cakeimage with {cakeImageLogin.CakeImageId} ID was deleted!");
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The cakesupplement with {cakeSupplementLogin.CakeSupplementId} ID was deleted!");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The cakeimage with {cakeImageLogin.CakeImageId} ID was not deleted");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The cakesupplement with {cakeSupplementLogin.CakeSupplementId} ID was not deleted");
                 }
             }
             else

@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bakery.DB.Interfaces
 {
-    public interface IOrderTypeRepository
+    public interface IOrderLoginRequest : IOrder, ILoginModel
     {
-        List<OrderType> GetOrderTypes();
-
-        List<IOrder> GetOrders(int ordertypeid)
     }
 }

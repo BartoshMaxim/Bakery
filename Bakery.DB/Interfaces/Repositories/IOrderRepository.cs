@@ -8,16 +8,16 @@ namespace Bakery.DB.Interfaces
 {
     public interface IOrderRepository
     {
-        List<Order> GetOrders();
+        List<IOrder> GetOrders();
 
-        Order GetOrder(int orderid);
+        IOrder GetOrder(int orderid);
 
         FullOrder GetFullOrder(int orderid);
 
-        bool InsertOrder(Order order);
+        bool InsertOrder(IOrder order);
 
         bool DeleteOrder(int orderid);
 
-        bool UpdateOrder(Order updateOrder);
+        bool UpdateOrder(IOrder updateOrder);
     }
 }

@@ -8,12 +8,20 @@ namespace Bakery.DB.Interfaces
 {
     public interface ICakeSupplementRepository
     {
-        List<Supplement> GetSupplements(int cakeid);
+        List<ISupplement> GetSupplements(int cakeid);
 
         int GetCakeSupplementId(int cakeid, int supplementid);
 
-        bool InsertCakeSupplementReference(int cakeid, int supplementid);
+        bool InsertCakeSupplementReference(ICakeSupplement cakeSupplement);
 
-        bool DeleteCakeSupplementReference(int cakeid, int supplementid);
+        bool DeleteCakeSupplementReference(ICakeSupplement cakeSupplement);
+
+        bool DeleteCakeSupplementReference(int cakesupplementid);
+
+        ICakeSupplement GetCakeSupplement(int cakesupplementid);
+
+        bool IsExists(int cakesuppmentid);
+
+        int GetCountRows();
     }
 }

@@ -8,21 +8,33 @@ namespace Bakery.DB.Repositories
 {
     public class RoleTypeRepository : IRoleTypeRepository
     {
-        public RoleType GetOrder(int roletypeid)
+        public List<ICustomer> GetCustomers(int roletypeid)
         {
             using (var context = Bakery.Sql())
             {
-                return (RoleType) context.ExecuteScalar<int>(@"
+                return context.Query<ICustomer>(@"
                     SELECT
-                        CustomerRoleId
+                        CustomerId
+                        ,FirstName
+                        ,LastName
+                        ,CreatedDate
+                        ,Email
+                        ,CustomerPassword
+                        ,CustomerPhone
+                        ,CustomerRole = CustomerRoleId
+                    
+                        ,Address1
+                        ,Address2
+                        ,City
+                        ,Country
                     FROM
-                        CustomerRoles
+                        Customers
                     WHERE
                         CustomerRoleId = @roletypeid
                 ", new
                 {
                     roletypeid = roletypeid
-                });
+                }).ToList();
             }
         }
 
