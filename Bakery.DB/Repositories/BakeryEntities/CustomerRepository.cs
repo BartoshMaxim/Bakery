@@ -29,7 +29,7 @@ namespace Bakery.DB.Repositories
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<ICustomer>(@"
+                return context.Query<Customer>(@"
                     SELECT
                         CustomerId
                         ,FirstName
@@ -81,7 +81,7 @@ namespace Bakery.DB.Repositories
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<ICustomer>(@"
+                return context.Query<Customer>(@"
                     SELECT
                         CustomerId
                         ,FirstName
@@ -110,11 +110,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<ICustomer> GetCustomers()
+        public IList<Customer> GetCustomers()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<ICustomer>(@"
+                return context.Query<Customer>(@"
                  SELECT
                         CustomerId
                         ,FirstName

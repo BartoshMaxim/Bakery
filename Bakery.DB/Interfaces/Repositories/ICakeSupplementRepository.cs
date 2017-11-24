@@ -8,9 +8,9 @@ namespace Bakery.DB.Interfaces
 {
     public interface ICakeSupplementRepository
     {
-        List<ISupplement> GetSupplements(int cakeid);
+        IList<Supplement> GetSupplements(int cakeid);
 
-        int GetCakeSupplementId(int cakeid, int supplementid);
+        int GetCakeSupplementId(ICakeSupplement cakeSupplement);
 
         bool InsertCakeSupplementReference(ICakeSupplement cakeSupplement);
 

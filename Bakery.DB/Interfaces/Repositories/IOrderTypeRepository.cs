@@ -8,8 +8,8 @@ namespace Bakery.DB.Interfaces
 {
     public interface IOrderTypeRepository
     {
-        List<OrderType> GetOrderTypes();
+        IList<OrderType> GetOrderTypes();
 
-        List<IOrder> GetOrders(int ordertypeid)
+        IList<Order> GetOrders(int ordertypeid);
     }
 }

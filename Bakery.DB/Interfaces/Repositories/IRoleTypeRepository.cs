@@ -8,8 +8,8 @@ namespace Bakery.DB.Interfaces
 {
     public interface IRoleTypeRepository
     {
-        List<RoleType> GetRoleTypes();
+        IList<RoleType> GetRoleTypes();
 
-        List<ICustomer> GetCustomers(int roletypeid)
+        IList<Customer> GetCustomers(int roletypeid);
     }
 }

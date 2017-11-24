@@ -26,7 +26,7 @@ namespace BakeryApi.Controllers
         public HttpResponseMessage Get()
         {
             var cakes = _cakeRepository.GetCakes();
-            return cakes != null ?
+            return cakes.Any()?
                 Request.CreateResponse(HttpStatusCode.OK, cakes)
                 : Request.CreateResponse(HttpStatusCode.InternalServerError, "Can not find any cakes!");
         }
@@ -51,7 +51,7 @@ namespace BakeryApi.Controllers
         public HttpResponseMessage Post()
         {
             var cakes = _cakeRepository.GetCakes();
-            return cakes != null ?
+            return cakes.Any()?
                 Request.CreateResponse(HttpStatusCode.OK, cakes)
                 : Request.CreateResponse(HttpStatusCode.InternalServerError, "Can not find any cakes!");
         }

@@ -50,7 +50,7 @@ namespace BakeryApi.Controllers
             {
                 var customers = _customerRepository.GetCustomers();
 
-                return customers != null ? Request.CreateResponse(HttpStatusCode.OK, customers)
+                return customers.Any() ? Request.CreateResponse(HttpStatusCode.OK, customers)
                                         : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can not found customers");
             }
             else

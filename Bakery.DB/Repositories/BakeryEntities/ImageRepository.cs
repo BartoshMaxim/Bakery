@@ -27,7 +27,7 @@ namespace Bakery.DB.Repositories
         {
             using (var context = Bakery.Sql())
             {
-                return context.ExecuteScalar<IImage>(@"
+                return context.Query<Image>(@"
                     SELECT
                         ImageId
                         ,ImageName
@@ -39,15 +39,15 @@ namespace Bakery.DB.Repositories
                 ", new
                 {
                     imageid = imageid
-                });
+                }).FirstOrDefault();
             }
         }
 
-        public List<IImage> GetImages()
+        public IList<Image> GetImages()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<IImage>(@"
+                return context.Query<Image>(@"
                     SELECT
                         ImageId
                         ,ImageName

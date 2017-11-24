@@ -15,7 +15,7 @@ namespace Bakery.DB.Repositories
                 return context.Execute(@"
                     DELETE FROM Cakes
                     WHERE
-                        ImageId = @imageid
+                        CakeId = @cakeid
                 ", new
                 {
                     cakeid = cakeid
@@ -27,7 +27,7 @@ namespace Bakery.DB.Repositories
         {
             using (var context = Bakery.Sql())
             {
-                return context.ExecuteScalar<ICake>(@"
+                return context.Query<Cake>(@"
                     SELECT
                         CakeId
                         ,CakeName
@@ -42,15 +42,15 @@ namespace Bakery.DB.Repositories
                 ", new
                 {
                     cakeid = cakeid
-                });
+                }).FirstOrDefault();
             }
         }
 
-        public List<ICake> GetCakes()
+        public IList<Cake> GetCakes()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<ICake>(@"
+                return context.Query<Cake>(@"
                     SELECT
                         CakeId
                         ,CakeName

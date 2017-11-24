@@ -8,11 +8,11 @@ namespace Bakery.DB.Repositories
 {
     public class RoleTypeRepository : IRoleTypeRepository
     {
-        public List<ICustomer> GetCustomers(int roletypeid)
+        public IList<Customer> GetCustomers(int roletypeid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<ICustomer>(@"
+                return context.Query<Customer>(@"
                     SELECT
                         CustomerId
                         ,FirstName
@@ -38,7 +38,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<RoleType> GetRoleTypes()
+        public IList<RoleType> GetRoleTypes()
         {
             using (var context = Bakery.Sql())
             {

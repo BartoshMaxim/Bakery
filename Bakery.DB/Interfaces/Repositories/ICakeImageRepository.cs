@@ -8,7 +8,7 @@ namespace Bakery.DB.Interfaces
 {
     public interface ICakeImageRepository
     {
-        List<IImage> GetImages(int cakeid);
+        IList<Image> GetImages(int cakeid);
 
         int GetCakeImageId(ICakeImage cakeImage);
 

@@ -27,7 +27,7 @@ namespace BakeryApi.Controllers
             if (id >= 0)
             {
                 var supplements = _cakeSupplementRepository.GetSupplements(id);
-                return supplements != null ?
+                return supplements.Any()?
                     Request.CreateResponse(HttpStatusCode.OK, supplements)
                     : Request.CreateResponse(HttpStatusCode.BadRequest, $"Can not find supplements of the cake with {id} ID!");
             }
@@ -42,7 +42,7 @@ namespace BakeryApi.Controllers
             if (id >= 0)
             {
                 var supplements = _cakeSupplementRepository.GetSupplements(id);
-                return supplements != null ?
+                return supplements.Any() ?
                     Request.CreateResponse(HttpStatusCode.OK, supplements)
                     : Request.CreateResponse(HttpStatusCode.BadRequest, $"Can not find supplements of the cake with {id} ID!");
             }
@@ -98,11 +98,12 @@ namespace BakeryApi.Controllers
         {
             if (ModelState.IsValid && _customerRepository.IsAdmin(cakeSupplementLogin))
             {
+                var cakeSupplementId = _cakeSupplementRepository.GetCakeSupplementId(cakeSupplementLogin);
 
                 var result = _cakeSupplementRepository.DeleteCakeSupplementReference(cakeSupplementLogin);
                 if (result)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, $"The cakesupplement with {cakeSupplementLogin.CakeSupplementId} ID was deleted!");
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The cakesupplement with {cakeSupplementId} ID was deleted!");
                 }
                 else
                 {

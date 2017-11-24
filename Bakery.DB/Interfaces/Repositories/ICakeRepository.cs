@@ -8,7 +8,7 @@ namespace Bakery.DB.Interfaces
 {
     public interface ICakeRepository
     {
-        List<ICake> GetCakes();
+        IList<Cake> GetCakes();
 
         ICake GetCake(int cakeid);
 

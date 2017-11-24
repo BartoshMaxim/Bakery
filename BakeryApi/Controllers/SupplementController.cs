@@ -25,7 +25,7 @@ namespace BakeryApi.Controllers
         public HttpResponseMessage Get()
         {
             var supplements = _supplementRepository.GetSupplements();
-            return supplements == null ?
+            return supplements.Any() ?
                 Request.CreateResponse(HttpStatusCode.OK, supplements)
                 : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Can not find any supplemets!");
         }
@@ -35,7 +35,7 @@ namespace BakeryApi.Controllers
             if (id >= 0)
             {
                 var supplement = _supplementRepository.GetSupplement(id);
-                return supplement == null ?
+                return supplement != null ?
                     Request.CreateResponse(HttpStatusCode.OK, supplement)
                     : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, $"Can not find supplement with {id} ID!");
             }
@@ -48,7 +48,7 @@ namespace BakeryApi.Controllers
         public HttpResponseMessage Post()
         {
             var supplements = _supplementRepository.GetSupplements();
-            return supplements == null ?
+            return supplements.Any() ?
                 Request.CreateResponse(HttpStatusCode.OK, supplements)
                 : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Can not find any supplemets!");
         }
@@ -58,7 +58,7 @@ namespace BakeryApi.Controllers
             if (id >= 0)
             {
                 var supplement = _supplementRepository.GetSupplement(id);
-                return supplement == null ?
+                return supplement != null ?
                     Request.CreateResponse(HttpStatusCode.OK, supplement)
                     : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, $"Can not find supplement with {id} ID!");
             }

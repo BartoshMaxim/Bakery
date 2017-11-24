@@ -27,7 +27,7 @@ namespace Bakery.DB.Repositories
         {
             using (var context = Bakery.Sql())
             {
-                return context.ExecuteScalar<Supplement>(@"
+                return context.Query<Supplement>(@"
                     SELECT
                         SupplementId
                         ,SupplementName
@@ -40,15 +40,15 @@ namespace Bakery.DB.Repositories
                 ", new
                 {
                     supplementid = supplementid
-                });
+                }).FirstOrDefault();
             }
         }
 
-        public List<ISupplement> GetSupplements()
+        public IList<Supplement> GetSupplements()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<ISupplement>(@"
+                return context.Query<Supplement>(@"
                     SELECT
                         SupplementId
                         ,SupplementName
@@ -62,15 +62,18 @@ namespace Bakery.DB.Repositories
 
         public bool InsertSupplement(ISupplement supplement)
         {
+            supplement.SupplementId = GetIdForNextSupplement();
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"
                     INSERT
-                        Supplements(SupplementName, SupplementDescription, SupplementPrice)
-                    VALUE
-                        (@supplementname, @supplementdescription, @supplementprice)
+                        Supplements(SupplementId, SupplementName, SupplementDescription, SupplementPrice)
+                    VALUES
+                        (@supplementid, @supplementname, @supplementdescription, @supplementprice)
                 ", new
                 {
+                    supplementid = supplement.SupplementId,
                     supplementname = supplement.SupplementName,
                     supplementdescription = supplement.SupplementDescription,
                     supplementprice = supplement.SupplementPrice
@@ -97,7 +100,46 @@ namespace Bakery.DB.Repositories
                     supplementname = updateSupplement.SupplementName,
                     supplementdescription = updateSupplement.SupplementDescription,
                     supplementprice = updateSupplement.SupplementPrice
-                })!=0;
+                }) != 0;
+            }
+        }
+
+        public int GetCountRows()
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(SupplementId)       
+                    FROM 
+                        Supplements");
+            }
+        }
+
+        private int GetIdForNextSupplement()
+        {
+            var supplementID = GetCountRows();
+
+            while (IsExists(supplementID))
+            {
+                supplementID++;
+            }
+            return supplementID;
+        }
+
+        public bool IsExists(int supplementid)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                SELECT COUNT(SupplementId)
+                FROM
+                    Supplements
+                WHERE
+                    SupplementId = @supplementid
+                ", new
+                {
+                    supplementid = supplementid
+                }) != 0;
             }
         }
     }

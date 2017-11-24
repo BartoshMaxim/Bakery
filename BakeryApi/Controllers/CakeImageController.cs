@@ -4,6 +4,7 @@ using Bakery.DB.Models;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Linq;
 
 namespace BakeryApi.Controllers
 {
@@ -24,7 +25,7 @@ namespace BakeryApi.Controllers
             if (id >= 0)
             {
                 var cake = _cakeImageRepository.GetImages(id);
-                return cake != null ?
+                return cake.Any() ?
                     Request.CreateResponse(HttpStatusCode.OK, cake)
                     : Request.CreateResponse(HttpStatusCode.BadRequest, $"Can not find images of the cake with {id} ID!");
             }
@@ -39,7 +40,7 @@ namespace BakeryApi.Controllers
             if (id >= 0)
             {
                 var cake = _cakeImageRepository.GetImages(id);
-                return cake != null ?
+                return cake.Any() ?
                     Request.CreateResponse(HttpStatusCode.OK, cake)
                     : Request.CreateResponse(HttpStatusCode.BadRequest, $"Can not find images of the cake with {id} ID!");
             }
@@ -78,11 +79,11 @@ namespace BakeryApi.Controllers
                 var result = _cakeImageRepository.DeleteCakeImageReference(id);
                 if (result)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, $"The image with {id} ID was deleted!");
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The cakeimage with {id} ID was deleted!");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The image with {id} ID was not deleted");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"The cakeimage with {id} ID was not deleted");
                 }
             }
             else
@@ -95,11 +96,12 @@ namespace BakeryApi.Controllers
         {
             if (ModelState.IsValid && _customerRepository.IsAdmin(cakeImageLogin))
             {
+                var cakeImageId = _cakeImageRepository.GetCakeImageId(cakeImageLogin);
 
                 var result = _cakeImageRepository.DeleteCakeImageReference(cakeImageLogin);
                 if (result)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, $"The cakeimage with {cakeImageLogin.CakeImageId} ID was deleted!");
+                    return Request.CreateResponse(HttpStatusCode.OK, $"The cakeimage with {cakeImageId} ID was deleted!");
                 }
                 else
                 {

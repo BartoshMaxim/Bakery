@@ -40,13 +40,13 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public int GetCakeSupplementId(int cakeid, int supplementid)
+        public int GetCakeSupplementId(ICakeSupplement cakeSupplement)
         {
             using (var context = Bakery.Sql())
             {
                 return context.ExecuteScalar<int>(@"
                     SELECT
-                        CakeSupplements
+                        CakeSupplementId
                     FROM
                         CakeSupplements
                     WHERE
@@ -55,8 +55,8 @@ namespace Bakery.DB.Repositories
                         SupplementId = @supplementid
                 ", new
                 {
-                    cakeid = cakeid,
-                    supplementid = supplementid
+                    cakeid = cakeSupplement.CakeId,
+                    supplementid = cakeSupplement.SupplementId
                 });
             }
         }
@@ -65,7 +65,7 @@ namespace Bakery.DB.Repositories
         {
             using (var context = Bakery.Sql())
             {
-                return context.ExecuteScalar<ICakeSupplement>(@"
+                return context.Query<CakeSupplement>(@"
                     SELECT
                         CakeSupplementId,
                         SupplementId,
@@ -77,15 +77,15 @@ namespace Bakery.DB.Repositories
                 ", new
                 {
                     cakesupplementid = cakesupplementid
-                });
+                }).FirstOrDefault();
             }
         }
 
-        public List<ISupplement> GetSupplements(int cakeid)
+        public IList<Supplement> GetSupplements(int cakeid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<ISupplement>(@"
+                return context.Query<Supplement>(@"
                     SELECT
                         s.SupplementId
                         ,s.SupplementName
@@ -94,8 +94,11 @@ namespace Bakery.DB.Repositories
                         Supplements as s
                             JOIN CakeSupplements as cs
                             ON cs.SupplementId = s.SupplementId
-                            AND cs.CakeId     = @cakeid                               
-                ").ToList(); 
+                            AND cs.CakeId      = @cakeid                               
+                ", new
+                {
+                    cakeid = cakeid
+                }).ToList(); 
             }
         }
 

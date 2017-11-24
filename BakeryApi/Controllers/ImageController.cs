@@ -25,7 +25,7 @@ namespace BakeryApi.Controllers
         public HttpResponseMessage Get()
         {
             var images = _imageRepository.GetImages();
-            return images == null ?
+            return images.Any() ?
                 Request.CreateResponse(HttpStatusCode.OK, images)
                 : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Can not find any images!");
         }
@@ -35,7 +35,7 @@ namespace BakeryApi.Controllers
             if (id >= 0)
             {
                 var image = _imageRepository.GetImage(id);
-                return image == null ?
+                return image != null ?
                     Request.CreateResponse(HttpStatusCode.OK, image)
                     : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, $"Can not find image with {id} ID!");
             }
@@ -49,7 +49,7 @@ namespace BakeryApi.Controllers
         public HttpResponseMessage Post()
         {
             var images = _imageRepository.GetImages();
-            return images == null ?
+            return images.Any() ?
                 Request.CreateResponse(HttpStatusCode.OK, images)
                 : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Can not find any images!");
         }
@@ -59,7 +59,7 @@ namespace BakeryApi.Controllers
             if (id >= 0)
             {
                 var image = _imageRepository.GetImage(id);
-                return image == null ?
+                return image != null ?
                     Request.CreateResponse(HttpStatusCode.OK, image)
                     : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, $"Can not find image with {id} ID!");
             }

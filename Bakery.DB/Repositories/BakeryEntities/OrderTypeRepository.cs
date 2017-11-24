@@ -8,11 +8,11 @@ namespace Bakery.DB.Repositories
 {
     public class OrderTypeRepository : IOrderTypeRepository
     {
-        public List<IOrder> GetOrders(int ordertypeid)
+        public IList<Order> GetOrders(int ordertypeid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<IOrder>(@"
+                return context.Query<Order>(@"
                     SELECT
                         OrderId,
                         CakeId,
@@ -22,7 +22,7 @@ namespace Bakery.DB.Repositories
                         OrderDate,
                         OrderType = OrderTypeId
                     FROM
-                        OrderTypes
+                        Orders
                     WHERE
                         OrderTypeId = @ordertypeid
                 ", new
@@ -32,7 +32,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<OrderType> GetOrderTypes()
+        public IList<OrderType> GetOrderTypes()
         {
             using (var context = Bakery.Sql())
             {

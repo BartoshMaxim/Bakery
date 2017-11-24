@@ -16,7 +16,7 @@ namespace BakeryApi.Controllers
 
         private readonly ICustomerRepository _customerRepository;
 
-        public OrderController(IOrderRepository orderRepository,ICustomerRepository customerRepository)
+        public OrderController(IOrderRepository orderRepository, ICustomerRepository customerRepository)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;
@@ -51,7 +51,7 @@ namespace BakeryApi.Controllers
             {
                 var orders = _orderRepository.GetOrders();
 
-                return orders != null ? Request.CreateResponse(HttpStatusCode.OK, orders)
+                return orders.Any() ? Request.CreateResponse(HttpStatusCode.OK, orders)
                                         : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can not found customers");
             }
             else
@@ -83,8 +83,7 @@ namespace BakeryApi.Controllers
         public HttpResponseMessage Delete(int id, [FromBody]LoginModel loginModel)
         {
             if (ModelState.IsValid && _customerRepository.IsAdmin(loginModel))
-            {
-
+            { 
                 var result = _orderRepository.DeleteOrder(id);
                 if (result)
                 {

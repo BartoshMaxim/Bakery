@@ -8,7 +8,7 @@ namespace Bakery.DB.Interfaces
 {
     public interface ISupplementRepository
     {
-        List<ISupplement> GetSupplements();
+        IList<Supplement> GetSupplements();
 
         ISupplement GetSupplement(int supplementid);
 
@@ -17,5 +17,9 @@ namespace Bakery.DB.Interfaces
         bool DeleteSupplement(int supplementid);
 
         bool UpdateSupplement(ISupplement updateSupplement);
+
+        bool IsExists(int supplementid);
+
+        int GetCountRows();
     }
 }

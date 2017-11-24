@@ -27,7 +27,7 @@ namespace Bakery.DB.Repositories
         {
             using (var context = Bakery.Sql())
             {
-                return context.ExecuteScalar<IOrder>(@"
+                return context.Query<Order>(@"
                     SELECT
                         OrderId
                         ,CustomerId
@@ -41,7 +41,7 @@ namespace Bakery.DB.Repositories
                 ", new
                 {
                     orderid = orderid
-                });
+                }).FirstOrDefault();
             }
         }
 
@@ -95,14 +95,14 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<IOrder> GetOrders()
+        public IList<Order> GetOrders()
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<IOrder>(@"
+                return context.Query<Order>(@"
                     SELECT
                         OrderId
-                        ,CustomerId,
+                        ,CustomerId
                         ,CakeId
                         ,OrderWeight
                         ,OrderDate
@@ -115,20 +115,22 @@ namespace Bakery.DB.Repositories
         {
             order.OrderId = GetIdForNextOrder();
             order.OrderDate = DateTime.Now;
+            order.OrderType = OrderType.Unconfirmed;
 
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"
                     INSERT
-                        Orders(OrderId, CakeId, CustomerId, OrderWeight, OrderDate)
-                    VALUES (@orderid, @cakeid, @customerid, @orderweight, @orderdate)
+                        Orders(OrderId, CakeId, CustomerId, OrderWeight, OrderDate, OrderTypeId)
+                    VALUES (@orderid, @cakeid, @customerid, @orderweight, @orderdate, @ordertypeid)
                 ", new
                 {
                     orderid = order.OrderId,
                     cakeid = order.CakeId,
                     customerid = order.CustomerId,
                     orderweight = order.OrderWeight,
-                    orderdate = order.OrderDate
+                    orderdate = order.OrderDate,
+                    ordertypeid = order.OrderType
                 }) != 0;
             }
         }

@@ -8,7 +8,7 @@ namespace Bakery.DB.Interfaces
 {
     public interface ICustomerRepository
     {
-        List<ICustomer> GetCustomers();
+        IList<Customer> GetCustomers();
 
         ICustomer GetCustomer(int customerid);
 

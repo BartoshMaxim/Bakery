@@ -61,11 +61,11 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public List<IImage> GetImages(int cakeid)
+        public IList<Image> GetImages(int cakeid)
         {
             using (var context = Bakery.Sql())
             {
-                return context.Query<IImage>(@"
+                return context.Query<Image>(@"
                     SELECT
                         i.ImageId
                         ,i.ImageName
@@ -85,21 +85,29 @@ namespace Bakery.DB.Repositories
 
         public bool InsertCakeImageReference(ICakeImage cakeImage)
         {
-            cakeImage.CakeImageId = GetIdForNextCakeImage();
-
-            using (var context = Bakery.Sql())
+            if (!IsExists(cakeImage))
             {
-                return context.Execute(@"
+
+                cakeImage.CakeImageId = GetIdForNextCakeImage();
+
+                using (var context = Bakery.Sql())
+                {
+                    return context.Execute(@"
                     INSERT
                         CakeImages (CakeImageId, CakeId, ImageId)
                     VALUES
                         (@cakeimageid, @cakeid, @imageid)
                     ", new
-                {
-                    cakeimageid = cakeImage.CakeImageId,
-                    cakeid = cakeImage.CakeId,
-                    imageid = cakeImage.ImageId
-                }) != 0;
+                    {
+                        cakeimageid = cakeImage.CakeImageId,
+                        cakeid = cakeImage.CakeId,
+                        imageid = cakeImage.ImageId
+                    }) != 0;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -138,6 +146,26 @@ namespace Bakery.DB.Repositories
                 ", new
                 {
                     cakeimageid = cakeimageid
+                }) != 0;
+            }
+        }
+
+        public bool IsExists(ICakeImage cakeImage)
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                SELECT COUNT(CakeImageId)
+                FROM
+                    CakeImages
+                WHERE
+                    CakeId  = @cakeid
+                AND
+                    ImageId = @imageid
+                ", new
+                {
+                    cakeid = cakeImage.CakeId,
+                    imageid = cakeImage.ImageId
                 }) != 0;
             }
         }

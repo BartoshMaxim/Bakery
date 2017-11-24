@@ -30,7 +30,7 @@ namespace BakeryApi.Controllers
                 {
                     var customers = _roleTypeRepository.GetCustomers(id);
 
-                    return customers!= null ?
+                    return customers.Any() ?
                         Request.CreateResponse(HttpStatusCode.OK, customers)
                         : Request.CreateErrorResponse(HttpStatusCode.BadRequest, $"Can not find the customer of the roletype with {id} ID");
                 }
@@ -51,7 +51,7 @@ namespace BakeryApi.Controllers
             {
                 var roletypes = _roleTypeRepository.GetRoleTypes();
 
-                return roletypes != null ? Request.CreateResponse(HttpStatusCode.OK, roletypes)
+                return roletypes.Any() ? Request.CreateResponse(HttpStatusCode.OK, roletypes)
                                         : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can not found roletypes");
             }
             else
