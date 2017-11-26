@@ -11,33 +11,26 @@ namespace AdminDashboard.Models
     {
         public bool Login(LoginModel loginModel)
         {
-            var customerid = BakeryRepository.GetCustomerRepository().GetCustomerId(loginModel.Email, loginModel.Password);
-            if (customerid != 0)
+            var customer = BakeryRepository.GetCustomerRepository().GetCustomer(loginModel.Email, loginModel.Password);
+            if (customer == null)
                 return false;
 
             // Create ticket
             var ticket = new FormsAuthenticationTicket(
                 1,
-                loginModel.Email,
+                customer.Email,
                 DateTime.Now,
                 DateTime.Now.AddMinutes(120),
                 false,
-                customerid.ToString());
+                customer.CustomerId.ToString());
 
             // Encrypt the ticket
             var encTicket = FormsAuthentication.Encrypt(ticket);
 
             // Create the cookie.
-            var cookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName]; //saved user
-            if (cookie == null)
-            {
-                HttpContext.Current.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encTicket));
-            }
-            else
-            {
-                cookie.Value = encTicket;
-                HttpContext.Current.Response.Cookies.Set(cookie);
-            }
+            HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+            HttpContext.Current.Response.Cookies.Add(faCookie);
+
             return true;
         }
 

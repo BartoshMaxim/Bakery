@@ -25,15 +25,30 @@ namespace AdminDashboard.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel login)
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if(ModelState.IsValid)
             {
+                var identityServices = new IdentityServices();
 
+                var result = identityServices.Login(login);
+
+                if (result)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             return View(login);
         }
 
+        
         public ActionResult Logout()
         {
+            var identityServices = new IdentityServices();
+            identityServices.Logout();
             return View("Login");
         }
     }

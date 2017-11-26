@@ -8,7 +8,7 @@ namespace AdminDashboard.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
+        [Attributes.Authorize]
         public ActionResult Index()
         {
             return View();
