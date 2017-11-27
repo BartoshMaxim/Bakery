@@ -7,7 +7,7 @@ namespace Bakery.DB
 {
     public class Customer : ICustomer
     {
-        
+
         public int CustomerId { get; set; }
 
         [Required]
@@ -40,5 +40,21 @@ namespace Bakery.DB
 
         [Required]
         public RoleType CustomerRole { get; set; }
+
+        public string[] GetRoles()
+        {
+            if (CustomerRole == RoleType.Admin)
+            {
+                return new string[] { "User", "Admin" };
+            }
+            else if (CustomerRole == RoleType.User)
+            {
+                return new string[] { "User" };
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Bakery.DB.Repositories;
+﻿using Bakery.DB;
+using Bakery.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,19 @@ namespace AdminDashboard.Models
     {
         public bool Login(LoginModel loginModel)
         {
-            var customer = BakeryRepository.GetCustomerRepository().GetCustomer(loginModel.Email, loginModel.Password);
+            var customer = BakeryRepository.GetCustomerRepository().GetCustomer(loginModel.Email, loginModel.Password) as Customer;
             if (customer == null)
+            {
                 return false;
+            }
+            var roles = customer.GetRoles();
+
+            if (roles == null)
+            {
+                return false;
+            }
+
+            string userData = string.Join("|", roles);
 
             // Create ticket
             var ticket = new FormsAuthenticationTicket(
@@ -22,13 +33,15 @@ namespace AdminDashboard.Models
                 DateTime.Now,
                 DateTime.Now.AddMinutes(120),
                 false,
-                customer.CustomerId.ToString());
+                userData,
+                FormsAuthentication.FormsCookiePath);
 
             // Encrypt the ticket
             var encTicket = FormsAuthentication.Encrypt(ticket);
 
             // Create the cookie.
             HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+            faCookie.HttpOnly = true;
             HttpContext.Current.Response.Cookies.Add(faCookie);
 
             return true;
