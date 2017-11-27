@@ -11,5 +11,7 @@ namespace Bakery.DB.Interfaces
         IList<RoleType> GetRoleTypes();
 
         IList<Customer> GetCustomers(int roletypeid);
+
+        IList<string> GetRolesDescriptions();
     }
 }

@@ -135,6 +135,41 @@ namespace Bakery.DB.Repositories
             }
         }
 
+        public IList<Customer> GetCustomers(int from, int to)
+        {
+            to = to - from;
+
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<Customer>(@"
+                 SELECT
+                        CustomerId
+                        ,FirstName
+                        ,LastName
+                        ,CreatedDate
+                        ,Email
+                        ,CustomerPassword
+                        ,CustomerPhone
+                        ,CustomerRole = CustomerRoleId
+                    
+                        ,Address1
+                        ,Address2
+                        ,City
+                        ,Country
+                    FROM
+                        Customers
+                    ORDER BY CustomerId DESC
+                    OFFSET @from ROWS
+                    FETCH NEXT @to ROWS ONLY
+                ", new
+                {
+                    from = from,
+                    to = to
+                }
+                ).ToList();
+            }
+        }
+
         public bool InsertCustomer(ICustomer customer)
         {
             var isExists = IsExists(customer.Email);

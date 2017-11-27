@@ -50,5 +50,18 @@ namespace Bakery.DB.Repositories
                 ").ToList();
             }
         }
+
+        public IList<string> GetRolesDescriptions()
+        {
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<string>(@"
+                    SELECT
+                        RoleName
+                    FROM
+                        CustomerRoles
+                ").ToList();
+            }
+        }
     }
 }

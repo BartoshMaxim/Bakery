@@ -10,6 +10,8 @@ namespace Bakery.DB.Interfaces
     {
         IList<Customer> GetCustomers();
 
+        IList<Customer> GetCustomers(int from, int to);
+
         ICustomer GetCustomer(int customerid);
 
         ICustomer GetCustomer(string login, string password);

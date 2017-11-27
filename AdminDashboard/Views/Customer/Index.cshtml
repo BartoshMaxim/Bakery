@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Bakery.DB.Customer>
+
+@{
+    ViewBag.Title = "Index";
+
+    var pagesCount = default(int);
+
+    var page = ViewBag.Page;
+
+    var rowsCount = 10;
+
+    if (ViewBag.PagesCount != null)
+    {
+        pagesCount = ViewBag.PagesCount;
+    }
+
+    if (ViewBag.Page != null)
+    {
+        page = ViewBag.Page;
+    }
+
+    if (ViewBag.RowsCount != null)
+    {
+        rowsCount = ViewBag.RowsCount;
+    }
+
+    var options = new AjaxOptions()
+    {
+        UpdateTargetId = "customersdata",
+        Url = Url.Action("CustomersData")
+    };
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="customersdata">
+        @Html.Action("CustomersData", new { rows = rowsCount, page = 1 })
+    </tbody>
+</table>
+
+<ul>
+    @for (int i = 1; i <= pagesCount; i++)
+    {
+        <li>
+            @Ajax.ActionLink(i.ToString(), "CustomersData", new { page = i, rows = rowsCount }, new AjaxOptions
+       {
+           UpdateTargetId = "customersdata"
+       })
+        </li>
+    }
+</ul>
