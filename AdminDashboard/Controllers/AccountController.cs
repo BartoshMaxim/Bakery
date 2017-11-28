@@ -40,6 +40,10 @@ namespace AdminDashboard.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
+                else
+                {
+                    ModelState.AddModelError("Error", "Incorrect username or password.");
+                }
             }
             return View(login);
         }

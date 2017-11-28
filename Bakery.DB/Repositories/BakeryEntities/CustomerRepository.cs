@@ -217,12 +217,11 @@ namespace Bakery.DB.Repositories
             {
                 return context.Execute(@"
                     UPDATE 
-                        Cakes
+                        Customers
                     SET
                         FirstName         = @firstname
                         ,LastName         = @lastname
                         ,CreatedDate      = @createddate
-                        ,CustomerPassword = @customerpassword
                         ,CustomerPhone    = @customerphone
                         ,CustomerRoleId   = @customerrole
                         ,Address1         = @address1
@@ -233,20 +232,48 @@ namespace Bakery.DB.Repositories
                         CustomerId        = @customerid
                 ", new
                 {
+                    customerid = updateCustomer.CustomerId,
                     firstname = updateCustomer.FirstName,
                     lastname = updateCustomer.LastName,
                     createddate = updateCustomer.CreatedDate,
                     email = updateCustomer.Email,
-                    customerpassword = ToMd5(updateCustomer.CustomerPassword),
                     customerphone = updateCustomer.CustomerPhone,
                     customerrole = updateCustomer.CustomerRole,
 
                     address1 = updateCustomer.Address1,
                     address2 = updateCustomer.Address1,
-                    sity = updateCustomer.City,
+                    city = updateCustomer.City,
                     country = updateCustomer.Country
                 }) != 0;
             }
+        }
+
+        public bool UpdateCustomerPassword(int customerid, string oldpassword, string newpassword)
+        {
+            if (IsExists(customerid))
+            {
+                var customer = GetCustomer(customerid);
+
+                if (customer.CustomerPassword.Equals(ToMd5(oldpassword)))
+                {
+                    using (var context = Bakery.Sql())
+                    {
+                        return context.Execute(@"
+                    UPDATE 
+                        Customers
+                    SET
+                        CustomerPassword = @customerpassword
+                    WHERE
+                        CustomerId        = @customerid
+                ", new
+                        {
+                            customerid = customerid,
+                            customerpassword = ToMd5(newpassword)
+                        }) != 0;
+                    }
+                }
+            }
+            return false;
         }
 
         public int GetCountRows()

@@ -1,4 +1,6 @@
-﻿using Bakery.DB.Interfaces;
+﻿using AdminDashboard.Models.Entities.Customer;
+using Bakery.DB;
+using Bakery.DB.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +23,7 @@ namespace AdminDashboard.Controllers
         }
 
         #region Index
-        // GET: Customers
+        // GET: Customer
         public ActionResult Index(int rows = 10, int page = 1)
         {
             var customersCount = _customerRepository.GetCountRows();
@@ -38,6 +40,7 @@ namespace AdminDashboard.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult CustomersData(int rows, int page)
         {
             var customersCount = _customerRepository.GetCountRows();
@@ -96,79 +99,181 @@ namespace AdminDashboard.Controllers
 
         #endregion
 
+        #region Details
         // GET: Customer/Details/5
         public ActionResult Details(int id)
         {
-            return View();
-        }
+            if (_customerRepository.IsExists(id))
+            {
+                var customer = _customerRepository.GetCustomer(id);
 
+                return View(customer);
+            }
+            else
+            {
+                ModelState.AddModelError("", $"Can not find customer with {id} ID");
+                return View("Index");
+            }
+        }
+        #endregion
+
+        #region Create
         // GET: Customer/Create
         public ActionResult Create()
         {
-            ViewBag.RoleNames = _roleTypeRepository.GetRolesDescriptions();
+            var customer = new Customer();
 
-            return View();
+            ViewBag.Roles = GetSelectListItem(customer);
+
+            return View(customer);
         }
 
         // POST: Customer/Create
-        [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Customer customer)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                try
+                {
+                    var result = _customerRepository.InsertCustomer(customer);
 
-                return RedirectToAction("Index");
+                    if (result)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Error", $"Customer with {customer.Email} Email already exists");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("Error", $"Server Error");
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            ViewBag.Roles = GetSelectListItem(customer);
+
+            return View(customer);
         }
+        #endregion
 
+        #region Edit
         // GET: Customer/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            if (_customerRepository.IsExists(id))
+            {
+                var customer = _customerRepository.GetCustomer(id);
+
+                ViewBag.Roles = GetSelectListItem(customer);
+
+                return View(customer);
+            }
+            ModelState.AddModelError("", $"Can not find customer with {id} ID");
+            return View("Index");
         }
 
         // POST: Customer/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, CustomerEditModel customer)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                if (_customerRepository.IsExists(id))
+                {
+                    customer.CustomerId = id;
+                    try
+                    {
+                        var result = _customerRepository.UpdateCustomer(customer);
 
-                return RedirectToAction("Index");
+                        if (result)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", $"Error update customer with {id} ID");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ModelState.AddModelError("", e);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", $"Can not find customer with {id} ID");
+                }
             }
-            catch
+
+            ViewBag.Roles = GetSelectListItem(customer);
+            return View((Customer)customer);
+        }
+        #endregion
+
+        private List<SelectListItem> GetSelectListItem(ICustomer customer)
+        {
+            var roleIndex = 0;
+            var roles = new List<SelectListItem>();
+            foreach (var roleName in _roleTypeRepository.GetRolesDescriptions())
             {
-                return View();
+                var selected = false;
+                if (customer.CustomerRole == (RoleType)roleIndex)
+                {
+                    selected = true;
+                }
+                roles.Add(new SelectListItem
+                {
+                    Text = roleName,
+                    Value = roleIndex.ToString(),
+                    Selected = selected
+                });
+                roleIndex++;
             }
+            return roles;
         }
 
         // GET: Customer/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var customer = _customerRepository.GetCustomer(id);
+            return View(customer);
         }
 
         // POST: Customer/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult CustomerDelete(int id)
         {
-            try
+            if (_customerRepository.IsExists(id))
             {
-                // TODO: Add delete logic here
+                try
+                {
+                    var result = _customerRepository.DeleteCustomer(id);
 
-                return RedirectToAction("Index");
+                    if (result)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Can not delete customer with {id}");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Server error");
+                }
             }
-            catch
+            else
             {
-                return View();
+                ModelState.AddModelError("", $"Can not find customer with {id} ID");
             }
+            return View("Delete", id);
         }
     }
 }

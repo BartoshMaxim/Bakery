@@ -16,3 +16,42 @@ textarea {
     max-width: 280px;
 }
 
+div.error {
+    border: 1px solid #f00;
+    padding: 5px;
+    margin: 20px;
+    background-color: #ffe3e0;
+}
+
+.edit-customerid {
+    padding: 7px;
+}
+
+th input.findid-box {
+    width: 100px;
+}
+
+ul.pages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+    ul.pages li {
+        float: left;
+        margin-left: 5px;
+    }
+
+        ul.pages li a {
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: 1px solid gray;
+        }
+
+            ul.pages li a:hover {
+                background-color: gray;
+            }

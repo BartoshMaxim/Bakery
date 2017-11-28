@@ -20,6 +20,7 @@ namespace Bakery.DB.Interfaces
         DateTime CreatedDate { get; set; }
 
         [Required]
+        [EmailAddress]
         string Email { get; set; }
 
         [Required]

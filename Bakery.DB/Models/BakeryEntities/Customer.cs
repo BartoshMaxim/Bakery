@@ -19,9 +19,13 @@ namespace Bakery.DB
         public DateTime CreatedDate { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
+        [MinLength(6, ErrorMessage = "The password must be longer than 6 symbols")]
+        [MaxLength(256, ErrorMessage = "The password must be shorter than 256 symbols")]
         public string CustomerPassword { get; set; }
 
         [Required]

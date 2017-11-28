@@ -36,41 +36,33 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="form-group">
+        <div class="col-md-10 error">
+            @Html.ValidationMessage("", new { @class = "error-msg" })
+        </div>
+    </div>
+}
 <table class="table">
     <thead>
-        <tr>
+        <tr id="search">
             <th>
                 @Html.DisplayNameFor(model => model.CustomerId)
+                <input class="form-control text-box single-line findid-box search" data-val="true"  name="CustomerId" type="number" >
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
+                <input class="form-control text-box single-line search" data-val="true" id="FirstName" type="text">
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
+                <input class="form-control text-box single-line search" data-val="true" id="LastName" type="text">
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerPassword)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
+                <input class="form-control text-box single-line search" data-val="true" id="Email" type="text">
             </th>
             <th></th>
         </tr>
@@ -80,7 +72,7 @@
     </tbody>
 </table>
 
-<ul>
+<ul class="pages">
     @for (int i = 1; i <= pagesCount; i++)
     {
         <li>

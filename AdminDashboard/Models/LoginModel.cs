@@ -14,7 +14,7 @@ namespace AdminDashboard.Models
 
         [Required]
         [MinLength(6,ErrorMessage = "Password has to longer than 6 symbols")]
-        [MaxLength(30, ErrorMessage = "Password has to smaller than 30 symbols")]
+        [MaxLength(256, ErrorMessage = "Password has to smaller than 30 symbols")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

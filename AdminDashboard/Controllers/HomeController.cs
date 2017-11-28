@@ -8,7 +8,7 @@ namespace AdminDashboard.Controllers
 {
     public class HomeController : Controller
     {
-        [Attributes.Authorize]
+        [Attributes.Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View();

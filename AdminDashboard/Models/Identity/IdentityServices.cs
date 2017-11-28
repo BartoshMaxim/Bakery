@@ -19,7 +19,7 @@ namespace AdminDashboard.Models
             }
             var roles = customer.GetRoles();
 
-            if (roles == null)
+            if (roles == null || !roles.Contains("Admin"))
             {
                 return false;
             }
