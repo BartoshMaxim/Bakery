@@ -117,6 +117,11 @@ namespace Bakery.DB.Repositories
             order.OrderDate = DateTime.Now;
             order.OrderType = OrderType.Unconfirmed;
 
+            if (order.OrderId == 0)
+            {
+                order.OrderId++;
+            }
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"

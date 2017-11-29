@@ -34,11 +34,18 @@ namespace AdminDashboard.Controllers
         // GET: Image/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var image = _imageRepository.GetImage(id);
+
+            if (image == null)
+            {
+                ModelState.AddModelError("", $"Image with {id} ID was not found");
+                return Redirect("Index");
+            }
+            return View(image);
         }
 
         // GET: Image/Create
-        public ActionResult Create()
+        public ActionResult Upload()
         {
             return View();
         }
@@ -46,17 +53,26 @@ namespace AdminDashboard.Controllers
         // POST: Image/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateImageModel imageModel)
+        public ActionResult Upload(UploadImageModel imageModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var uploadpath = "~/Images/Upload";
+
                     var imageid = _imageRepository.GetCountRows();
+
+                    if(imageid == 0)
+                    {
+                        imageid++;
+                    }
 
                     var ext = Path.GetExtension(imageModel.ImageFile.FileName);
 
-                    var imagepath = Path.Combine(Server.MapPath("~/Images/Uploaded"), imageid + ext);
+                    var physicalImagePath = Path.Combine(Server.MapPath(uploadpath), imageid + ext);
+
+                    var imagepath = uploadpath + "/" + imageid + ext;
 
                     var image = new Image
                     {
@@ -65,9 +81,9 @@ namespace AdminDashboard.Controllers
                         ImagePath = imagepath
                     };
 
-                    imageModel.ImageFile.SaveAs(imagepath);
+                    imageModel.ImageFile.SaveAs(physicalImagePath);
 
-                    var result =  _imageRepository.InsertImage(image);
+                    var result = _imageRepository.InsertImage(image);
 
                     if (result)
                     {

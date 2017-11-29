@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /AdminDashboard/Images/Uploaded
+/AdminDashboard/Images/Upload

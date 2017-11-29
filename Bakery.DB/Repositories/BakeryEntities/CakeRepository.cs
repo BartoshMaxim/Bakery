@@ -68,6 +68,11 @@ namespace Bakery.DB.Repositories
             cake.CakeId = GetIdForNextCake();
             cake.AddedDate = DateTime.Now;
 
+            if (cake.CakeId == 0)
+            {
+                cake.CakeId++;
+            }
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"

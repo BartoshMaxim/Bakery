@@ -31,6 +31,18 @@ th input.findid-box {
     width: 100px;
 }
 
+input.upload-image {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+label.upload-image {
+    cursor: pointer;
+    border: 1px solid black;
+    font-weight: bold;
+}
+
 ul.pages {
     list-style-type: none;
     margin: 0;
@@ -44,7 +56,7 @@ ul.pages {
         margin-bottom: 5px;
         height: 42px;
         width: 42px;
-        text-align:center;
+        text-align: center;
     }
 
         ul.pages li a {

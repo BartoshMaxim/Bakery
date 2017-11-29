@@ -64,6 +64,11 @@ namespace Bakery.DB.Repositories
         {
             supplement.SupplementId = GetIdForNextSupplement();
 
+            if (supplement.SupplementId == 0)
+            {
+                supplement.SupplementId++;
+            }
+
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"

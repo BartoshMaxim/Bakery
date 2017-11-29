@@ -143,6 +143,11 @@ namespace Bakery.DB.Repositories
             {
                 customer.CustomerId = GetIdForNextCustomer();
 
+                if (customer.CustomerId == 0)
+                {
+                    customer.CustomerId++;
+                }
+
                 customer.CreatedDate = DateTime.Now;
 
                 using (var context = Bakery.Sql())

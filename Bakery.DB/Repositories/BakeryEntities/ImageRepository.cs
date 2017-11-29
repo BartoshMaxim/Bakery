@@ -62,6 +62,10 @@ namespace Bakery.DB.Repositories
         {
             image.ImageId = GetIdForNextImage();
 
+            if (image.ImageId == 0)
+            {
+                image.ImageId++;
+            }
             using (var context = Bakery.Sql())
             {
                 return context.Execute(@"

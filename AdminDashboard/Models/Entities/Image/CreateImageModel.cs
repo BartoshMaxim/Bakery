@@ -6,7 +6,7 @@ using System.Web;
 
 namespace AdminDashboard.Models.Entities.Image
 {
-    public class CreateImageModel
+    public class UploadImageModel
     {
         [Required(ErrorMessage = "Please, write image name, it will use in alt's!")]
         [Display(Name = "Image Name")]
