@@ -10,7 +10,7 @@ namespace Bakery.DB.Interfaces
     {
         IList<Customer> GetCustomers();
 
-        IList<Customer> GetCustomers(int from, int to);
+        IList<Customer> GetCustomers(int from, int to, ICustomer customer = null);
 
         ICustomer GetCustomer(int customerid);
 
@@ -25,6 +25,8 @@ namespace Bakery.DB.Interfaces
         bool UpdateCustomer(ICustomer updateCustomer);
 
         int GetCountRows();
+
+        int GetCountRows(ICustomer customer);
 
         bool IsExists(string email);
 

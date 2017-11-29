@@ -13,11 +13,11 @@
     <div class="form-horizontal">
         <h4>Customer</h4>
         <hr />
-        @if (!ViewData.ModelState.IsValid)
+        @if (ViewData.ModelState.ContainsKey(""))
         {
             <div class="form-group">
                 <div class="col-md-10 error">
-                    @Html.ValidationMessage("Error", new { @class = "error-msg" })
+                    @Html.ValidationMessage("", new { @class = "error-msg" })
                 </div>
             </div>
         }

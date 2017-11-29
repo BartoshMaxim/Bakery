@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Bakery\Sql.cs" />
+    <Compile Include="Interfaces\Controllers\IPage.cs" />
     <Compile Include="Interfaces\Models\ApiControllerEntities\ICakeImageLoginRequest.cs" />
     <Compile Include="Interfaces\Models\ApiControllerEntities\ICakeLoginRequest.cs" />
     <Compile Include="Interfaces\Models\ApiControllerEntities\ICakeSupplementLoginRequest.cs" />

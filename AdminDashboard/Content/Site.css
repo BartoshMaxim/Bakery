@@ -41,16 +41,24 @@ ul.pages {
     ul.pages li {
         float: left;
         margin-left: 5px;
+        margin-bottom: 5px;
+        height: 42px;
+        width: 42px;
+        text-align:center;
     }
 
         ul.pages li a {
             display: block;
             color: black;
             text-align: center;
-            padding: 10px 15px;
+            padding: 10px 0;
             text-decoration: none;
             border: 1px solid gray;
         }
+
+            ul.pages li a.active {
+                background-color: gray;
+            }
 
             ul.pages li a:hover {
                 background-color: gray;

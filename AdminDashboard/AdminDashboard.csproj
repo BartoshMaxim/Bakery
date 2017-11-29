@@ -116,7 +116,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\customer.js" />
+    <Content Include="Scripts\page.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -136,12 +136,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Customer\CustomerEditModel.cs" />
+    <Compile Include="Models\Entities\Customer\SearchCustomerModel.cs" />
+    <Compile Include="Models\Entities\Image\CreateImageModel.cs" />
     <Compile Include="Models\Identity\IdentityServices.cs" />
-    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +160,8 @@
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Delete.cshtml" />
+    <Content Include="Views\Image\Index.cshtml" />
+    <Content Include="Views\Image\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -167,8 +171,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Uploaded\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bakery.Core\Bakery.Core.csproj">
+      <Project>{898F40B8-9113-47A7-A50F-F2A01E72812B}</Project>
+      <Name>Bakery.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bakery.DB\Bakery.DB.csproj">
       <Project>{D56DFC14-825D-429C-9457-8B8639D128A0}</Project>
       <Name>Bakery.DB</Name>

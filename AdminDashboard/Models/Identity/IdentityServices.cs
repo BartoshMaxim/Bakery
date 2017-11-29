@@ -12,7 +12,7 @@ namespace AdminDashboard.Models
     {
         public bool Login(LoginModel loginModel)
         {
-            var customer = BakeryRepository.GetCustomerRepository().GetCustomer(loginModel.Email, loginModel.Password) as Customer;
+            var customer = BakeryRepository.GetCustomerRepository().GetCustomer(loginModel.Login, loginModel.Password) as Customer;
             if (customer == null)
             {
                 return false;

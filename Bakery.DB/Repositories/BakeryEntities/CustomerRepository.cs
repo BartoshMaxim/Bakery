@@ -135,41 +135,6 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public IList<Customer> GetCustomers(int from, int to)
-        {
-            to = to - from;
-
-            using (var context = Bakery.Sql())
-            {
-                return context.Query<Customer>(@"
-                 SELECT
-                        CustomerId
-                        ,FirstName
-                        ,LastName
-                        ,CreatedDate
-                        ,Email
-                        ,CustomerPassword
-                        ,CustomerPhone
-                        ,CustomerRole = CustomerRoleId
-                    
-                        ,Address1
-                        ,Address2
-                        ,City
-                        ,Country
-                    FROM
-                        Customers
-                    ORDER BY CustomerId DESC
-                    OFFSET @from ROWS
-                    FETCH NEXT @to ROWS ONLY
-                ", new
-                {
-                    from = from,
-                    to = to
-                }
-                ).ToList();
-            }
-        }
-
         public bool InsertCustomer(ICustomer customer)
         {
             var isExists = IsExists(customer.Email);
@@ -276,6 +241,48 @@ namespace Bakery.DB.Repositories
             return false;
         }
 
+        public IList<Customer> GetCustomers(int from, int to, ICustomer customer = null)
+        {
+            var query = string.Empty;
+            if (customer != null)
+            {
+                query = CreateQuery(customer);
+            }
+
+            to = to - from;
+
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<Customer>($@"
+                 SELECT
+                        CustomerId
+                        ,FirstName
+                        ,LastName
+                        ,CreatedDate
+                        ,Email
+                        ,CustomerPassword
+                        ,CustomerPhone
+                        ,CustomerRole = CustomerRoleId
+                    
+                        ,Address1
+                        ,Address2
+                        ,City
+                        ,Country
+                    FROM
+                        Customers
+                    {query}
+                    ORDER BY CustomerId DESC
+                    OFFSET @from ROWS
+                    FETCH NEXT @to ROWS ONLY
+                ", new
+                {
+                    from = from,
+                    to = to
+                }
+                ).ToList();
+            }
+        }
+
         public int GetCountRows()
         {
             using (var context = Bakery.Sql())
@@ -285,6 +292,78 @@ namespace Bakery.DB.Repositories
                     FROM 
                         Customers");
             }
+        }
+
+        public int GetCountRows(ICustomer customer)
+        {
+            var query = string.Empty;
+            if (customer != null)
+            {
+                query = CreateQuery(customer);
+            }
+
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(CustomerId)       
+                    FROM 
+                        Customers
+                    " + query);
+            }
+        }
+
+        private string CreateQuery(ICustomer customer)
+        {
+            var query = new StringBuilder();
+
+            if (customer.CustomerId != 0)
+            {
+                query.Append($"WHERE CustomerId={customer.CustomerId}");
+            }
+
+            if (customer.FirstName != null && !customer.FirstName.Equals(string.Empty))
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"FirstName LIKE '%{customer.FirstName}%'");
+            }
+
+            if (customer.LastName != null && !customer.LastName.Equals(string.Empty))
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"LastName LIKE '%{customer.LastName}%'");
+            }
+
+            if (customer.Email != null && !customer.Email.Equals(string.Empty))
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"Email LIKE '%{customer.Email}%'");
+            }
+
+            return query.ToString();
         }
 
         public bool IsExists(string email)

@@ -1,4 +1,5 @@
 ﻿using AdminDashboard.Models;
+using Bakery.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace AdminDashboard.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Error", "Incorrect username or password.");
+                    ModelState.AddModelError("", "Incorrect username or password.");
                 }
             }
             return View(login);
