@@ -6,14 +6,16 @@ using System.Linq;
 using Bakery.DB;
 using System.Web.Mvc;
 using System.IO;
+using Bakery.DB.Interfaces;
+using Bakery.Core.Helpers;
 
 namespace AdminDashboard.Controllers
 {
     public class ImageController : Controller
     {
-        private readonly ImageRepository _imageRepository;
+        private readonly IImageRepository _imageRepository;
 
-        public ImageController(ImageRepository imageRepository)
+        public ImageController(IImageRepository imageRepository)
         {
             _imageRepository = imageRepository;
         }
@@ -21,14 +23,45 @@ namespace AdminDashboard.Controllers
         // GET: Image
         public ActionResult Index()
         {
-            var images = _imageRepository.GetImages();
+            return View();
+        }
 
-            if (!images.Any())
+        public ActionResult PagesData(SearchImageModel searchImage)
+        {
+            var customersCount = 0;
+            if (searchImage.IsImageNotNull())
             {
-                ModelState.AddModelError("", "Can't found any images!");
+                customersCount = _imageRepository.GetCountRows(searchImage);
+            }
+            else
+            {
+                customersCount = _imageRepository.GetCountRows();
             }
 
-            return View(images);
+            if (customersCount == 0)
+            {
+                return PartialView("ImagesData", null);
+            }
+
+            var valideteRowsPage = new ValidateRowsPage(searchImage, customersCount);
+
+            ViewBag.PagesCount = valideteRowsPage.ValidateGetPageCount();
+
+            var from = (searchImage.Page - 1) * searchImage.Rows;
+
+            var to = searchImage.Page * searchImage.Rows;
+
+            ViewBag.SearchImageModel = searchImage;
+
+            //Get limit customers from database
+            var customers = _imageRepository.GetImages(from, to, searchImage);
+
+            if (Request.UrlReferrer.AbsolutePath.Equals("/Cake/Create"))
+            {
+                return PartialView("ExistsImagesData", customers);
+            }
+
+            return PartialView("ImagesData", customers);
         }
 
         // GET: Image/Details/5
@@ -38,9 +71,9 @@ namespace AdminDashboard.Controllers
 
             if (image == null)
             {
-                ModelState.AddModelError("", $"Image with {id} ID was not found");
-                return Redirect("Index");
+                return HttpNotFound($"Image with { id} ID was not fount!");
             }
+
             return View(image);
         }
 
@@ -61,9 +94,9 @@ namespace AdminDashboard.Controllers
                 {
                     var uploadpath = "~/Images/Upload";
 
-                    var imageid = _imageRepository.GetCountRows();
+                    var imageid = _imageRepository.GetIdForNextImage();
 
-                    if(imageid == 0)
+                    if (imageid == 0)
                     {
                         imageid++;
                     }
@@ -105,44 +138,89 @@ namespace AdminDashboard.Controllers
         // GET: Image/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var image = _imageRepository.GetImage(id);
+
+            if (image == null)
+            {
+                return HttpNotFound($"Image with { id} ID was not fount!");
+            }
+
+            return View(image);
         }
 
         // POST: Image/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Image image)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                try
+                {
+                    var result = _imageRepository.UpdateImage(image);
 
-                return RedirectToAction("Index");
+                    if (result)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Image with {image.ImageId} ID was not update!");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Server Error!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View(image);
         }
 
         // GET: Image/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var image = _imageRepository.GetImage(id);
+
+            if (image == null)
+            {
+                return HttpNotFound($"Image with { id} ID was not fount!");
+            }
+            return View(image);
         }
 
         // POST: Image/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult ImageDelete(int id)
         {
-            try
+            if (_imageRepository.IsExists(id))
             {
-                // TODO: Add delete logic here
+                try
+                {
+                    var image = _imageRepository.GetImage(id);
 
-                return RedirectToAction("Index");
+                    var pathToDeleteImage = Server.MapPath(image.ImagePath);
+
+                    System.IO.File.Delete(pathToDeleteImage);
+
+                    var result = _imageRepository.DeleteImage(id);
+                    
+                    if (result)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return HttpNotFound($"Image with { id} ID was not fount!");
+                    }
+                }
+                catch
+                {
+                    Response.StatusCode = 500;
+                    return RedirectToAction("Index", $"Server Error!");
+                }
             }
-            catch
+            else
             {
-                return View();
+                return HttpNotFound($"Image with { id} ID was not fount!");
             }
         }
     }

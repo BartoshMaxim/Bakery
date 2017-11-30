@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using System.Linq;
+using System.Text;
 
 namespace Bakery.DB.Repositories
 {
@@ -116,6 +117,100 @@ namespace Bakery.DB.Repositories
                     imageid = updateCake.ImageId,
                     addeddate = updateCake.AddedDate
                 }) != 0;
+            }
+        }
+
+        private string CreateQuery(ICake cake)
+        {
+            var query = new StringBuilder();
+
+            if (cake.ImageId != 0)
+            {
+                query.Append($"WHERE CakeId={cake.CakeId}");
+            }
+
+            if (cake.CakeName != null && !cake.CakeName.Equals(string.Empty))
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"CakeName LIKE '%{cake.CakeName}%'");
+            }
+
+            if (cake.CakePrice != 0)
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"CakePrice={cake.CakePrice}");
+            }
+
+            return query.ToString();
+        }
+
+        public IList<Cake> GetCakes(int from, int to, ICake searchCake)
+        {
+            var query = string.Empty;
+            if (searchCake != null)
+            {
+                query = CreateQuery(searchCake);
+            }
+
+            to = to - from;
+
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<Cake>($@"
+                   SELECT
+                        CakeId
+                        ,CakeName
+                        ,CakeDescription
+                        ,CakePrice
+                        ,ImageId
+                        ,AddedDate
+                    FROM
+                        Cakes
+                    {query}
+                    ORDER BY CakeId DESC
+                    OFFSET @from ROWS
+                    FETCH NEXT @to ROWS ONLY
+                ", new
+                {
+                    from = from,
+                    to = to
+                }
+                ).ToList();
+            }
+        }
+
+        public int GetCountRows(ICake searchCake)
+        {
+            string query = string.Empty;
+
+            if (searchCake != null)
+            {
+                query = CreateQuery(searchCake);
+            }
+
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(CakeId)       
+                    FROM 
+                        Cakes
+                    " + query);
             }
         }
 

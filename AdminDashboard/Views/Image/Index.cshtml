@@ -2,6 +2,14 @@
 
 @{
     ViewBag.Title = "Index";
+
+    var rowsCount = 10;
+
+    var options = new AjaxOptions()
+    {
+        UpdateTargetId = "pagesdata",
+        Url = Url.Action("PagesData")
+    };
 }
 
 <h2>Index</h2>
@@ -10,45 +18,31 @@
     @Html.ActionLink("Upload image", "Upload")
 </p>
 
-@if (ViewData.ModelState.ContainsKey(""))
-{
-    <div class="form-group">
-        <div class="col-md-10 error">
-            @Html.ValidationMessage("", new { @class = "error-msg" })
-        </div>
-    </div>
-}
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImagePath)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ImageId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ImageId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ImageId })
-        </td>
-    </tr>
-}
-
+    <thead>
+        <tr id="search">
+            <th>
+                @Html.DisplayNameFor(model => model.ImageId)
+                <input class="form-control text-box single-line search" data-val="true" name="ImageId" type="number">
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+                <input class="form-control text-box single-line search" data-val="true" name="ImageName" type="text">
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePath)
+                <input class="form-control text-box single-line search" data-val="true" name="ImagePath" type="text">
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="pagesdata">
+        @Html.Action("PagesData", new { rows = rowsCount, page = 1 })
+    </tbody>
 </table>
+
+@section scripts{
+    <script src="~/Scripts/page.js"></script>
+}

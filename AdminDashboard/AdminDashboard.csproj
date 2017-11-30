@@ -116,6 +116,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\createcake.js" />
     <Content Include="Scripts\page.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -134,13 +135,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\Identity\Authorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CakeController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Controllers\AccountControllerEntities.cs" />
+    <Compile Include="Models\Entities\Cake\SearchCakeModel.cs" />
     <Compile Include="Models\Entities\Customer\CustomerEditModel.cs" />
+    <Compile Include="Models\Entities\Image\SearchImageModel.cs" />
     <Compile Include="Models\Entities\Customer\SearchCustomerModel.cs" />
     <Compile Include="Models\Entities\Image\CreateImageModel.cs" />
     <Compile Include="Models\Identity\IdentityServices.cs" />
@@ -163,6 +168,13 @@
     <Content Include="Views\Image\Index.cshtml" />
     <Content Include="Views\Image\Upload.cshtml" />
     <Content Include="Views\Image\Details.cshtml" />
+    <Content Include="Views\Image\Edit.cshtml" />
+    <Content Include="Views\Image\Delete.cshtml" />
+    <Content Include="Views\Shared\ImagesData.cshtml" />
+    <Content Include="Views\Cake\Index.cshtml" />
+    <Content Include="Views\Shared\CakesData.cshtml" />
+    <Content Include="Views\Cake\Create.cshtml" />
+    <Content Include="Views\Shared\ExistsImagesData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

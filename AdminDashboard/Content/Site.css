@@ -28,7 +28,11 @@ div.error {
 }
 
 th input.findid-box {
-    width: 100px;
+    max-width: 100px;
+}
+
+th.findid-box {
+    max-width: 100px;
 }
 
 input.upload-image {
@@ -41,6 +45,11 @@ label.upload-image {
     cursor: pointer;
     border: 1px solid black;
     font-weight: bold;
+}
+
+img.upload-image-img {
+    max-height: 500px;
+    max-width: 500px;
 }
 
 ul.pages {
@@ -75,3 +84,53 @@ ul.pages {
             ul.pages li a:hover {
                 background-color: gray;
             }
+
+/* Cake section */
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.cake-button {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: white;
+    background-color: #33cc33;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none;
+}
+
+    .cake-button:hover {
+        background-color: #00b300;
+    }
+
+    .cake-button.active {
+        background-color: #009900;
+    }
+
+        .cake-button.active:hover {
+            background-color: #008000;
+        }
+
+img.exists-image-img {
+    max-height: 250px;
+    max-width: 250px;
+}
+
+div#update th {
+    text-align: center;
+}
+
+input[type=radio]:checked::parent {
+    background-color: #0DFF92;
+}
+
+/* end Cake section */

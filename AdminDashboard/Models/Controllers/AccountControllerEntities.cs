@@ -1,20 +1,19 @@
-﻿using Bakery.DB.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Bakery.DB
+namespace AdminDashboard.Models.Controllers
 {
     /// <summary>
     /// Login Model - use for Authentication
     /// </summary>
-    public class LoginModel : ILoginModel
+    public class LoginModel
     {
         [Required]
         [EmailAddress(ErrorMessage = "Not correct email")]
-        public string Login { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [MinLength(6, ErrorMessage = "Password has to longer than 6 symbols")]

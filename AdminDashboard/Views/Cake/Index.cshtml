@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Bakery.DB.Cake>
+
+@{
+    ViewBag.Title = "Index";
+
+    var rowsCount = 10;
+
+    var options = new AjaxOptions()
+    {
+        UpdateTargetId = "pagesdata",
+        Url = Url.Action("PagesData")
+    };
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<table class="table">
+    <thead>
+        <tr id="search">
+            <th class="findid-box">
+                @Html.DisplayNameFor(model => model.CakeId)
+                <input class="form-control text-box single-line search findid-box" data-val="true" name="CakeId" type="number">
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CakeName)
+                <input class="form-control text-box single-line search" data-val="true" name="CakeName" type="text">
+            </th>
+            <th class="findid-box">
+                @Html.DisplayNameFor(model => model.CakePrice)
+                <input class="form-control text-box single-line search findid-box" data-val="true" name="CakePrice" type="number">
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="pagesdata">
+        @Html.Action("PagesData", new { rows = rowsCount, page = 1 })
+    </tbody>
+</table>
+@section scripts{
+    <script src="~/Scripts/page.js"></script>
+}

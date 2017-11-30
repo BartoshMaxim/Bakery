@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Bakery.DB.Cake>
+
+@{
+    var searchCake = (AdminDashboard.Models.Entities.Cake.SearchCakeModel)ViewBag.SearchCakeModel;
+}
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CakeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CakeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CakePrice)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CakeId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CakeId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CakeId })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5">
+            <ul class="pages">
+                @for (int i = 1; i <= ViewBag.PagesCount; i++)
+                {
+
+                    <li>
+                        @if (searchCake.Page == i)
+                        {
+                            @Ajax.ActionLink(i.ToString(), "PagesData", new
+                       {
+                           page = i,
+                           rows = searchCake.Rows,
+                           CustomerId = searchCake.CakeId,
+                           FirstName = searchCake.CakeName,
+                           LastName = searchCake.CakePrice,
+                       }, new AjaxOptions
+                       {
+                           UpdateTargetId = "pagesdata"
+                       }, new { @class = "active" })
+                        }
+                        else
+                        {
+                            @Ajax.ActionLink(i.ToString(), "PagesData", new
+                       {
+                           page = i,
+                           rows = searchCake.Rows,
+                           CustomerId = searchCake.CakeId,
+                           FirstName = searchCake.CakeName,
+                           LastName = searchCake.CakePrice
+                       }, new AjaxOptions
+                       {
+                           UpdateTargetId = "pagesdata"
+                       })
+                        }
+
+                    </li>
+                }
+            </ul>
+        </td>
+    </tr>
+}
+else
+{
+    <tr>
+        <td colspan="5">
+            Could not found any data
+        </td>
+    </tr>
+}
+

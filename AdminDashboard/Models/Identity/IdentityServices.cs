@@ -1,4 +1,5 @@
-﻿using Bakery.DB;
+﻿using AdminDashboard.Models.Controllers;
+using Bakery.DB;
 using Bakery.DB.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace AdminDashboard.Models
 {
     public class IdentityServices
     {
-        public bool Login(LoginModel loginModel)
+        public bool Login(Controllers.LoginModel loginModel)
         {
-            var customer = BakeryRepository.GetCustomerRepository().GetCustomer(loginModel.Login, loginModel.Password) as Customer;
+            var customer = BakeryRepository.GetCustomerRepository().GetCustomer(loginModel.Email, loginModel.Password) as Customer;
             if (customer == null)
             {
                 return false;

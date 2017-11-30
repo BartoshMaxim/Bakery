@@ -11,6 +11,7 @@ namespace Bakery.DB
         [Display(Name ="Image Name")]
         public string ImageName { get; set; }
 
+        [Display(Name = "Image Path")]
         public string ImagePath { get; set; }
     }
 }
