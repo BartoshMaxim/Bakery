@@ -19,7 +19,7 @@ namespace Bakery.DB.Models
         public string CakeDescription { get; set; }
 
         [Required]
-        public int CakePrice { get; set; }
+        public float CakePrice { get; set; }
 
         public int ImageId { get; set; }
         

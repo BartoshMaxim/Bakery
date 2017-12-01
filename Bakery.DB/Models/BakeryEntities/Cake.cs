@@ -1,6 +1,7 @@
 ﻿using Bakery.DB.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,11 +31,13 @@ namespace Bakery.DB
 
         public string CakeDescription { get; set; }
 
-        public int CakePrice { get; set; }
+        public float CakePrice { get; set; }
 
         /// <summary>
         /// Preview image
         /// </summary>
+        /// 
+        [Display(Name = "Preview Image")]
         public int ImageId { get; set; }
 
         public DateTime AddedDate { get; set; }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace AdminDashboard.Models.Entities.Cake
+namespace Bakery.DB
 {
     public class SearchCakeModel : IPage, ICake
     {
@@ -12,7 +12,7 @@ namespace AdminDashboard.Models.Entities.Cake
 
         public string CakeName { get; set; }
 
-        public int CakePrice { get; set; }
+        public float CakePrice { get; set; }
 
         public int Rows { get; set; }
 

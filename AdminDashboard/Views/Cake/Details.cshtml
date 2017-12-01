@@ -1,0 +1,81 @@
+﻿@model Bakery.DB.Cake
+
+@{
+    ViewBag.Title = "Details";
+
+    var previewImage = default(Bakery.DB.Image);
+    var images = default(List<Bakery.DB.Image>);
+
+    if (ViewBag.PreviewImage != null)
+    {
+        previewImage = (Bakery.DB.Image)ViewBag.PreviewImage;
+    }
+
+    if (ViewBag.Images!=null)
+    {
+        images = (List<Bakery.DB.Image>)ViewBag.Images;
+    }
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Cake</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageId)
+        </dt>
+
+        <dd>
+            <img src="@Url.Content(@previewImage.ImagePath)" alt="@previewImage.ImageName" title="@previewImage.ImageName" class="upload-image-img" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CakeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CakeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CakeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CakeDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CakePrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CakePrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddedDate)
+        </dd>
+
+        @foreach (var image in images)
+        {
+            <dt>
+                Image #@image.ImageId
+            </dt>
+
+            <dd>
+                <img src="@image.ImagePath" alt="@image.ImageName" title="@image.ImageName" />
+            </dd>
+        }
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CakeId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

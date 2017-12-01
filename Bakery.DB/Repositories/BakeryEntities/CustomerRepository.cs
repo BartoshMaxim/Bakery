@@ -337,7 +337,7 @@ namespace Bakery.DB.Repositories
                     query.Append(" AND ");
                 }
 
-                query.Append($"FirstName LIKE '%{customer.FirstName}%'");
+                query.Append($"FirstName LIKE N'%{customer.FirstName}%'");
             }
 
             if (customer.LastName != null && !customer.LastName.Equals(string.Empty))
@@ -351,7 +351,7 @@ namespace Bakery.DB.Repositories
                     query.Append(" AND ");
                 }
 
-                query.Append($"LastName LIKE '%{customer.LastName}%'");
+                query.Append($"LastName LIKE N'%{customer.LastName}%'");
             }
 
             if (customer.Email != null && !customer.Email.Equals(string.Empty))

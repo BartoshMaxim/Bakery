@@ -1,11 +1,12 @@
-﻿using AdminDashboard.Models.Entities.Cake;
-using Bakery.Core.Helpers;
+﻿using AdminDashboard.Core.Helpers;
 using Bakery.DB.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Bakery.DB;
+using AdminDashboard.Core.ControllersLogic;
 
 namespace AdminDashboard.Controllers
 {
@@ -13,9 +14,15 @@ namespace AdminDashboard.Controllers
     {
         private readonly ICakeRepository _cakeRepository;
 
-        public CakeController(ICakeRepository cakeRepository)
+        private readonly IImageRepository _imageRepository;
+
+        private readonly ICakeImageRepository _cakeImageRepository;
+
+        public CakeController(ICakeRepository cakeRepository, IImageRepository imageRepository, ICakeImageRepository cakeImageRepository)
         {
             _cakeRepository = cakeRepository;
+            _imageRepository = imageRepository;
+            _cakeImageRepository = cakeImageRepository;
         }
 
         // GET: Cake
@@ -62,12 +69,20 @@ namespace AdminDashboard.Controllers
         {
             var cake = _cakeRepository.GetCake(id);
 
-            if(cake == null)
+            var images = _cakeImageRepository.GetImages(cake.CakeId);
+
+            var image = _imageRepository.GetImage(cake.ImageId);
+
+            ViewBag.PreviewImage = image;
+
+            ViewBag.Images = images;
+
+            if (cake == null)
             {
                 return RedirectToAction("Index", $"Cake with {id} ID not found!");
             }
 
-            return View();
+            return View(cake);
         }
 
         // GET: Cake/Create
@@ -78,18 +93,59 @@ namespace AdminDashboard.Controllers
 
         // POST: Cake/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CreateCakeModel cakeModel)
         {
-            try
+            if (!CakeHepler.ImageIsExistsInCreateCakeModel(cakeModel))
             {
-                // TODO: Add insert logic here
+                ModelState.AddModelError("Image", "Choose image or upload image");
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    if (cakeModel.ImageId == 0)
+                    {
+                        var result = ImageHelper.UploadImage(cakeModel, _imageRepository, Server);
+
+                        if (result != 0)
+                        {
+                            cakeModel.ImageId = result;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Image", "Can not upload this image");
+                        }
+                    }
+                    else
+                    {
+                        var result = _imageRepository.IsExists(cakeModel.ImageId);
+
+                        if (result)
+                        {
+                            ModelState.AddModelError("Image", $"Image with {cakeModel.ImageId} ID not found!");
+                        }
+                    }
+
+
+                    var insertResult = _cakeRepository.InsertCake(cakeModel);
+
+                    if (insertResult)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Cake was not created!");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Server Error!");
+                }
             }
+
+            return View();
         }
 
         // GET: Cake/Edit/5

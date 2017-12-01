@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Bakery.DB.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace AdminDashboard.Models.Entities.Image
+namespace Bakery.DB
 {
-    public class UploadImageModel
+    public class UploadImageModel: IUploadImageModel
     {
         [Required(ErrorMessage = "Please, write image name, it will use in alt's!")]
         [Display(Name = "Image Name")]
-        public string ImageName { get; set; }
+        public virtual string ImageName { get; set; }
 
         [Required(ErrorMessage = "Please, choose image file!")]
-        public HttpPostedFileBase ImageFile { get; set; }
+        public virtual HttpPostedFileBase ImageFile { get; set; }
     }
 }

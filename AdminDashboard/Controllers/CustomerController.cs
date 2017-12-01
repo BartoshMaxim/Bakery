@@ -1,5 +1,4 @@
-﻿using AdminDashboard.Models.Entities.Customer;
-using Bakery.Core.Helpers;
+﻿using AdminDashboard.Core.Helpers;
 using Bakery.DB;
 using Bakery.DB.Interfaces;
 using System;
@@ -75,8 +74,7 @@ namespace AdminDashboard.Controllers
             }
             else
             {
-                ModelState.AddModelError("", $"Can not find customer with {id} ID");
-                return View("Index");
+                return HttpNotFound($"Can not find customer with {id} ID");
             }
         }
         #endregion
@@ -136,8 +134,7 @@ namespace AdminDashboard.Controllers
 
                 return View(customer);
             }
-            ModelState.AddModelError("", $"Can not find customer with {id} ID");
-            return View("Index");
+            return HttpNotFound($"Can not find customer with {id} ID");
         }
 
         // POST: Customer/Edit/5
@@ -170,7 +167,7 @@ namespace AdminDashboard.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", $"Can not find customer with {id} ID");
+                    return HttpNotFound($"Can not find customer with {id} ID");
                 }
             }
 
@@ -205,6 +202,11 @@ namespace AdminDashboard.Controllers
         public ActionResult Delete(int id)
         {
             var customer = _customerRepository.GetCustomer(id);
+
+            if(customer == null)
+            {
+                return HttpNotFound($"Can not find customer with {id} ID");
+            }
             return View(customer);
         }
 
@@ -235,7 +237,7 @@ namespace AdminDashboard.Controllers
             }
             else
             {
-                ModelState.AddModelError("", $"Can not find customer with {id} ID");
+                return HttpNotFound($"Can not find customer with {id} ID");
             }
             return View("Delete", id);
         }

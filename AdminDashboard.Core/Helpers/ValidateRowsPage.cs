@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bakery.Core.Helpers
+namespace AdminDashboard.Core.Helpers
 {
     public class ValidateRowsPage
     {

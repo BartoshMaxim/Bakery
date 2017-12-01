@@ -1,12 +1,8 @@
 ﻿using Bakery.DB.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Bakery.DB;
 using System.ComponentModel.DataAnnotations;
 
-namespace AdminDashboard.Models.Entities.Customer
+namespace Bakery.DB
 {
     public class CustomerEditModel : ICustomer
     {
@@ -42,11 +38,11 @@ namespace AdminDashboard.Models.Entities.Customer
         [Required]
         public RoleType CustomerRole { get; set; }
 
-        public string CustomerPassword { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string CustomerPassword { get; set; }
 
-        public static explicit operator Bakery.DB.Customer(CustomerEditModel editModel)
+        public static explicit operator Customer(CustomerEditModel editModel)
         {
-            return new Bakery.DB.Customer
+            return new Customer
             {
                 Address1 = editModel.Address1,
                 Address2 = editModel.Address2,

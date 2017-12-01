@@ -93,8 +93,11 @@ namespace Bakery.DB.Repositories
                     SET
                         ImageName = @imagename,
                         ImagePath = @imagepath
+                    WHERE 
+                        ImageId   = @imageid
                 ", new
                 {
+                    imageid = updateImage.ImageId,
                     imagename = updateImage.ImageName,
                     imagepath = updateImage.ImagePath
                 }) != 0;
@@ -182,7 +185,7 @@ namespace Bakery.DB.Repositories
                     query.Append(" AND ");
                 }
 
-                query.Append($"ImageName LIKE '%{image.ImageName}%'");
+                query.Append($"ImageName LIKE N'%{image.ImageName}%'");
             }
 
             if (image.ImagePath != null && !image.ImagePath.Equals(string.Empty))
@@ -196,7 +199,7 @@ namespace Bakery.DB.Repositories
                     query.Append(" AND ");
                 }
 
-                query.Append($"ImagePath LIKE '%{image.ImagePath}%'");
+                query.Append($"ImagePath LIKE N'%{image.ImagePath}%'");
             }
 
             return query.ToString();

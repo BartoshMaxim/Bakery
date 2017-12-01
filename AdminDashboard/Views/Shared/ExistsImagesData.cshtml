@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Bakery.DB.Image>
 
 @{
-    var searchImage = (AdminDashboard.Models.Entities.Image.SearchImageModel)ViewBag.SearchImageModel;
+    var searchImage = (Bakery.DB.SearchImageModel)ViewBag.SearchImageModel;
 }
 
 <table>
@@ -28,7 +28,7 @@
                     </label>
                 </td>
                 <td>
-                    <input type="radio" id="@item.ImageId@item.ImageName" name="ImageId" value="@item.ImageId">
+                    <input type="radio" id="@item.ImageId@item.ImageName" onchange="changeParentColor(this)" name="ImageId" value="@item.ImageId">
                 </td>
             </tr>
         }
@@ -41,7 +41,7 @@
                         <li>
                             @if (searchImage.Page == i)
                             {
-                                @Ajax.ActionLink(i.ToString(), "GetImages", new
+                                @Ajax.ActionLink(i.ToString(), "PagesData", new
                            {
                                page = i,
                                rows = searchImage.Rows,
@@ -55,7 +55,7 @@
                             }
                             else
                             {
-                                @Ajax.ActionLink(i.ToString(), "GetImages", new
+                                @Ajax.ActionLink(i.ToString(), "PagesData", new
                            {
                                page = i,
                                rows = searchImage.Rows,

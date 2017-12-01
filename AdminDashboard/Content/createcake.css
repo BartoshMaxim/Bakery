@@ -1,0 +1,66 @@
+﻿.overflow-hidden {
+    overflow: hidden;
+}
+
+.cake-button {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: white;
+    background-color: #33cc33;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none;
+}
+
+    .cake-button:hover {
+        background-color: #00b300;
+    }
+
+    .cake-button.active {
+        background-color: #009900;
+    }
+
+        .cake-button.active:hover {
+            background-color: #008000;
+        }
+
+img.exists-image-img {
+    max-height: 250px;
+    max-width: 250px;
+    margin: 10px;
+}
+
+div#update {
+    float: right;
+}
+
+    div#update th, tr {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    div#update td {
+        min-width: 100px;
+    }
+
+.green-back {
+    background-color: #66ff66;
+}
+
+.form-horizontal {
+    float: left;
+}
+
+@media (max-width: 992px) {
+    div#update {
+        float: left;
+    }
+}

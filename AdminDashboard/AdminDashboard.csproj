@@ -107,6 +107,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\createcake.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -128,6 +129,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\uploadimage.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -143,11 +145,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Controllers\AccountControllerEntities.cs" />
-    <Compile Include="Models\Entities\Cake\SearchCakeModel.cs" />
-    <Compile Include="Models\Entities\Customer\CustomerEditModel.cs" />
-    <Compile Include="Models\Entities\Image\SearchImageModel.cs" />
-    <Compile Include="Models\Entities\Customer\SearchCustomerModel.cs" />
-    <Compile Include="Models\Entities\Image\CreateImageModel.cs" />
     <Compile Include="Models\Identity\IdentityServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -175,6 +172,8 @@
     <Content Include="Views\Shared\CakesData.cshtml" />
     <Content Include="Views\Cake\Create.cshtml" />
     <Content Include="Views\Shared\ExistsImagesData.cshtml" />
+    <Content Include="Views\Shared\_UploadImage.cshtml" />
+    <Content Include="Views\Cake\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -187,9 +186,9 @@
     <Folder Include="Images\Upload\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bakery.Core\Bakery.Core.csproj">
-      <Project>{898F40B8-9113-47A7-A50F-F2A01E72812B}</Project>
-      <Name>Bakery.Core</Name>
+    <ProjectReference Include="..\AdminDashboard.Core\AdminDashboard.Core.csproj">
+      <Project>{036ecae6-2a6a-4892-9a64-7ee4d6eb7276}</Project>
+      <Name>AdminDashboard.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bakery.DB\Bakery.DB.csproj">
       <Project>{D56DFC14-825D-429C-9457-8B8639D128A0}</Project>

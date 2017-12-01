@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Bakery.DB.Customer>
 
 @{
-    var searchCustomer = (AdminDashboard.Models.Entities.Customer.SearchCustomerModel)ViewBag.SearchCustomerModel;
+    var searchCustomer = (Bakery.DB.SearchCustomerModel)ViewBag.SearchCustomerModel;
 }
 
 @if (Model != null)

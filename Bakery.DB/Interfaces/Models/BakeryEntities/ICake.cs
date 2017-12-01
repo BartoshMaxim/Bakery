@@ -14,7 +14,7 @@ namespace Bakery.DB.Interfaces
 
         string CakeDescription { get; set; }
 
-        int CakePrice { get; set; }
+        float CakePrice { get; set; }
 
         /// <summary>
         /// Preview image

@@ -124,7 +124,7 @@ namespace Bakery.DB.Repositories
         {
             var query = new StringBuilder();
 
-            if (cake.ImageId != 0)
+            if (cake.CakeId != 0)
             {
                 query.Append($"WHERE CakeId={cake.CakeId}");
             }
@@ -140,7 +140,7 @@ namespace Bakery.DB.Repositories
                     query.Append(" AND ");
                 }
 
-                query.Append($"CakeName LIKE '%{cake.CakeName}%'");
+                query.Append($"CakeName LIKE N'%{cake.CakeName}%'");
             }
 
             if (cake.CakePrice != 0)

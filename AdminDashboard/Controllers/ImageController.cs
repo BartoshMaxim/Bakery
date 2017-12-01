@@ -1,5 +1,4 @@
-﻿using AdminDashboard.Models.Entities.Image;
-using Bakery.DB.Repositories;
+﻿using Bakery.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,8 @@ using Bakery.DB;
 using System.Web.Mvc;
 using System.IO;
 using Bakery.DB.Interfaces;
-using Bakery.Core.Helpers;
+using AdminDashboard.Core.Helpers;
+using AdminDashboard.Core.ControllersLogic;
 
 namespace AdminDashboard.Controllers
 {
@@ -56,7 +56,7 @@ namespace AdminDashboard.Controllers
             //Get limit customers from database
             var customers = _imageRepository.GetImages(from, to, searchImage);
 
-            if (Request.UrlReferrer.AbsolutePath.Equals("/Cake/Create"))
+            if (Request.UrlReferrer != null && Request.UrlReferrer.AbsolutePath.Equals("/Cake/Create"))
             {
                 return PartialView("ExistsImagesData", customers);
             }
@@ -92,33 +92,9 @@ namespace AdminDashboard.Controllers
             {
                 try
                 {
-                    var uploadpath = "~/Images/Upload";
+                    var result = ImageHelper.UploadImage(imageModel, _imageRepository, Server);
 
-                    var imageid = _imageRepository.GetIdForNextImage();
-
-                    if (imageid == 0)
-                    {
-                        imageid++;
-                    }
-
-                    var ext = Path.GetExtension(imageModel.ImageFile.FileName);
-
-                    var physicalImagePath = Path.Combine(Server.MapPath(uploadpath), imageid + ext);
-
-                    var imagepath = uploadpath + "/" + imageid + ext;
-
-                    var image = new Image
-                    {
-                        ImageId = imageid,
-                        ImageName = imageModel.ImageName,
-                        ImagePath = imagepath
-                    };
-
-                    imageModel.ImageFile.SaveAs(physicalImagePath);
-
-                    var result = _imageRepository.InsertImage(image);
-
-                    if (result)
+                    if (result != 0)
                     {
                         return RedirectToAction("Index");
                     }
@@ -202,7 +178,7 @@ namespace AdminDashboard.Controllers
                     System.IO.File.Delete(pathToDeleteImage);
 
                     var result = _imageRepository.DeleteImage(id);
-                    
+
                     if (result)
                     {
                         return RedirectToAction("Index");
@@ -222,6 +198,11 @@ namespace AdminDashboard.Controllers
             {
                 return HttpNotFound($"Image with { id} ID was not fount!");
             }
+        }
+
+        public ActionResult UploadImageModel()
+        {
+            return PartialView("_UploadImage");
         }
     }
 }
