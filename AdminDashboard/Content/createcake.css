@@ -14,6 +14,7 @@
     margin-right: 10px;
     border-radius: 9px;
     cursor: pointer;
+    position: relative;
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
@@ -30,6 +31,44 @@
 
         .cake-button.active:hover {
             background-color: #008000;
+        }
+
+    .cake-button.add-image {
+        width: 120px;
+        height: 100px;
+        font-size: 25px;
+        margin-bottom: 10px;
+        line-height: 100px;
+        position: relative;
+        margin-left: 0;
+    }
+
+        .cake-button.add-image label {
+            font-weight: normal;
+            width: 120px;
+            height: 100px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+            .cake-button.add-image label img {
+                margin-top: -4px;
+                width: 108px;
+                height: 90px;
+            }
+
+            .cake-button.add-image .icon.remove {
+                width: 23px;
+                height: 23px;
+                background: url("../Images/AdminDashboard/remove-icon.png");
+                position: absolute;
+                right: -10px;
+                top: -10px;
+                display: none;
+            }
+
+        .cake-button.add-image:hover .icon.remove {
+            display: block;
         }
 
 img.exists-image-img {
@@ -53,10 +92,6 @@ div#update {
 
 .green-back {
     background-color: #66ff66;
-}
-
-.form-horizontal {
-    float: left;
 }
 
 @media (max-width: 992px) {

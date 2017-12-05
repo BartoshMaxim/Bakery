@@ -14,7 +14,7 @@ namespace Bakery.DB.Interfaces
 
         ICake GetCake(int cakeid);
 
-        bool InsertCake(ICake cake);
+        int InsertCake(ICake cake);
 
         bool DeleteCake(int cakeid);
 

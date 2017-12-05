@@ -21,5 +21,7 @@ namespace Bakery.DB.Interfaces
         bool IsExists(int cakeimageid);
 
         int GetCountRows();
+
+        bool IsExists(ICakeImage cakeImage);
     }
 }

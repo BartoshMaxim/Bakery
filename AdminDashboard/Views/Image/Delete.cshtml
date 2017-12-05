@@ -10,7 +10,7 @@
 <div>
     <h4>Image</h4>
     <hr />
-    <img class="upload-image-img" src="@Url.Content(Model.ImagePath)" alt="@Model.ImageName" title="@Model.ImageName" />
+    @Html.ImageHelper(Model, Url, "upload-image-img")
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.ImageName)

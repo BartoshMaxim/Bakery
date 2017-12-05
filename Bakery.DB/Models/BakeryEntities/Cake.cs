@@ -36,8 +36,7 @@ namespace Bakery.DB
         /// <summary>
         /// Preview image
         /// </summary>
-        /// 
-        [Display(Name = "Preview Image")]
+        [Display(Name = "Title Image")]
         public int ImageId { get; set; }
 
         public DateTime AddedDate { get; set; }

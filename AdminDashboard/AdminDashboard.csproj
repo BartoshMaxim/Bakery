@@ -118,6 +118,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\createcake.js" />
+    <Content Include="Scripts\editcake.js" />
     <Content Include="Scripts\page.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -144,6 +145,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Instraction\ViewHelper.cs" />
     <Compile Include="Models\Controllers\AccountControllerEntities.cs" />
     <Compile Include="Models\Identity\IdentityServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -174,6 +176,8 @@
     <Content Include="Views\Shared\ExistsImagesData.cshtml" />
     <Content Include="Views\Shared\_UploadImage.cshtml" />
     <Content Include="Views\Cake\Details.cshtml" />
+    <Content Include="Views\Cake\Delete.cshtml" />
+    <Content Include="Views\Cake\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

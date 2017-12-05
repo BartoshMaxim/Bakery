@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Bakery.DB
 {
-    public class CreateCakeModel : IUploadImageModel, ICake
+    public class CreateCakeModel : ICake
     {
         public int CakeId { get; set; }
 
@@ -24,11 +24,8 @@ namespace Bakery.DB
 
         public int ImageId { get; set; }
 
-        [MaxLength(50, ErrorMessage = "Cake Name can not contain more than 50 characters")]
-        public string ImageName { get; set; }
-
-        public HttpPostedFileBase ImageFile { get; set; }
-
         public DateTime AddedDate { get; set; }
+
+        public IEnumerable<HttpPostedFileBase> Files { get; set; }
     }
 }

@@ -93,44 +93,55 @@ namespace AdminDashboard.Controllers
 
         // POST: Cake/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateCakeModel cakeModel)
         {
             if (!CakeHepler.ImageIsExistsInCreateCakeModel(cakeModel))
             {
-                ModelState.AddModelError("Image", "Choose image or upload image");
+                ModelState.AddModelError("Image", "Upload any images");
+            }
+
+            if (cakeModel.Files.Count() > 8)
+            {
+                ModelState.AddModelError("Image", "Count images can not be more 8.");
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (cakeModel.ImageId == 0)
-                    {
-                        var result = ImageHelper.UploadImage(cakeModel, _imageRepository, Server);
+                    var imageidList = new List<int>();
 
-                        if (result != 0)
-                        {
-                            cakeModel.ImageId = result;
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("Image", "Can not upload this image");
-                        }
-                    }
-                    else
+                    // Upload Cake Photos
+                    foreach (var file in cakeModel.Files)
                     {
-                        var result = _imageRepository.IsExists(cakeModel.ImageId);
-
-                        if (result)
+                        if (file != null)
                         {
-                            ModelState.AddModelError("Image", $"Image with {cakeModel.ImageId} ID not found!");
+                            var result = ImageHelper.UploadImage(new UploadImageModel { ImageFile = file, ImageName = file.FileName }, _imageRepository, Server);
+
+                            if (result > 0)
+                            {
+                                imageidList.Add(result);
+                            }
                         }
                     }
 
+                    cakeModel.ImageId = imageidList.FirstOrDefault();
 
-                    var insertResult = _cakeRepository.InsertCake(cakeModel);
+                    //Insert Cake to DB
+                    var cakeid = _cakeRepository.InsertCake(cakeModel);
 
-                    if (insertResult)
+                    //Create CakeImage References
+                    foreach (var imageid in imageidList)
+                    {
+                        _cakeImageRepository.InsertCakeImageReference(new CakeImage
+                        {
+                            CakeId = cakeid,
+                            ImageId = imageid
+                        });
+                    }
+
+                    if (cakeid != 0)
                     {
                         return RedirectToAction("Index");
                     }
@@ -148,15 +159,29 @@ namespace AdminDashboard.Controllers
             return View();
         }
 
-        // GET: Cake/Edit/5
+
         public ActionResult Edit(int id)
         {
-            return View();
+            var cake = _cakeRepository.GetCake(id);
+
+            if (cake == null)
+            {
+                return HttpNotFound($"Can not find cake with {id} ID");
+            }
+
+            var images = _cakeImageRepository.GetImages(id);
+
+            if (images != null)
+            {
+                ViewBag.Images = images;
+            }
+
+            return View(cake);
         }
 
-        // POST: Cake/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Cake cake)
         {
             try
             {
@@ -173,22 +198,71 @@ namespace AdminDashboard.Controllers
         // GET: Cake/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var cake = _cakeRepository.GetCake(id);
+
+            var images = _cakeImageRepository.GetImages(cake.CakeId);
+
+            ViewBag.Images = images;
+
+            if (cake == null)
+            {
+                return HttpNotFound($"Can not find cake with {id} ID");
+            }
+            return View(cake);
         }
 
         // POST: Cake/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCake(int id)
         {
-            try
+            if (_cakeRepository.IsExists(id))
             {
-                // TODO: Add delete logic here
+                try
+                {
+                    var result = _cakeRepository.DeleteCake(id);
 
-                return RedirectToAction("Index");
+                    if (result)
+                    {
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Can not delete cake with {id}");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Server error");
+                }
             }
-            catch
+            else
             {
-                return View();
+                return HttpNotFound($"Can not find cake with {id} ID");
+            }
+
+            return View("Delete", id);
+        }
+
+        [HttpPost]
+        public void DeleteImage(CakeImage cakeImage)
+        {
+            if (_cakeImageRepository.IsExists(cakeImage))
+            {
+                _cakeImageRepository.DeleteCakeImageReference(cakeImage);
+
+                var cake = _cakeRepository.GetCake(cakeImage.CakeId);
+
+                if (cake.ImageId == cakeImage.ImageId)
+                {
+                    var resultCakeImage = _cakeImageRepository.GetImages(cakeImage.CakeId).FirstOrDefault();
+                    cake.ImageId = resultCakeImage != null ? resultCakeImage.ImageId : 0;
+
+                    _cakeRepository.UpdateCake(cake);
+                }
+
+                _imageRepository.DeleteImage(cakeImage.ImageId);
             }
         }
     }

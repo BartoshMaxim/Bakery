@@ -24,7 +24,7 @@
                 </td>
                 <td>
                     <label for="@item.ImageId@item.ImageName">
-                        <img class="exists-image-img" src="@Url.Content(item.ImagePath)" alt="@item.ImageName" title="@item.ImageName" />
+                        @Html.ImageHelper(item, Url, "exists-image-img")
                     </label>
                 </td>
                 <td>

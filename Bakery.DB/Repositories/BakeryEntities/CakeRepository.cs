@@ -64,7 +64,7 @@ namespace Bakery.DB.Repositories
             }
         }
 
-        public bool InsertCake(ICake cake)
+        public int InsertCake(ICake cake)
         {
             cake.CakeId = GetIdForNextCake();
             cake.AddedDate = DateTime.Now;
@@ -89,7 +89,7 @@ namespace Bakery.DB.Repositories
                     cakeprice = cake.CakePrice,
                     imageid = cake.ImageId,
                     addeddate = cake.AddedDate
-                }) != 0;
+                }) != 0 ? cake.CakeId : 0;
             }
         }
 

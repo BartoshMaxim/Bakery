@@ -77,7 +77,7 @@ namespace BakeryApi.Controllers
             if (ModelState.IsValid && _customerRepository.IsAdmin(cakeLogin))
             {
                 var result = _cakeRepository.InsertCake(cakeLogin);
-                if (result)
+                if (result!=0)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, $"The cake was added");
                 }

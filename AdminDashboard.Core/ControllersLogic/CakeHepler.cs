@@ -11,14 +11,12 @@ namespace AdminDashboard.Core.ControllersLogic
     {
         public static bool ImageIsExistsInCreateCakeModel(CreateCakeModel cakeModel)
         {
-            if (cakeModel.ImageId != 0)
+            foreach(var image in cakeModel.Files)
             {
-                return true;
-            }
-
-            if (cakeModel.ImageName != null && cakeModel.ImageFile != null)
-            {
-                return true;
+                if (image != null)
+                {
+                    return true;
+                }
             }
 
             return false;
