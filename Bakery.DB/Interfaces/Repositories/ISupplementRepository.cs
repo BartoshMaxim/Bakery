@@ -10,6 +10,8 @@ namespace Bakery.DB.Interfaces
     {
         IList<Supplement> GetSupplements();
 
+        IList<Supplement> GetSupplements(int from, int to, ISupplement searchSupplement);
+
         ISupplement GetSupplement(int supplementid);
 
         bool InsertSupplement(ISupplement supplement);
@@ -21,5 +23,7 @@ namespace Bakery.DB.Interfaces
         bool IsExists(int supplementid);
 
         int GetCountRows();
+
+        int GetCountRows(ISupplement searchSupplement);
     }
 }

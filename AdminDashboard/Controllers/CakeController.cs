@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bakery.DB;
 using AdminDashboard.Core.ControllersLogic;
+using AdminDashboard.Models.Controllers;
 
 namespace AdminDashboard.Controllers
 {
@@ -162,7 +163,10 @@ namespace AdminDashboard.Controllers
 
         public ActionResult Edit(int id)
         {
-            var cake = _cakeRepository.GetCake(id);
+
+            var cake = default(Cake);
+
+            cake = (Cake)_cakeRepository.GetCake(id);
 
             if (cake == null)
             {
@@ -176,23 +180,67 @@ namespace AdminDashboard.Controllers
                 ViewBag.Images = images;
             }
 
-            return View(cake);
+            return View((EditCakeModel)cake);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Cake cake)
+        public ActionResult Edit(EditCakeModel editCake)
         {
-            try
+            if (ModelState.IsValid && _cakeRepository.IsExists(editCake.CakeId))
             {
-                // TODO: Add update logic here
+                try
+                {
+                    var imageidList = new List<int>();
 
-                return RedirectToAction("Index");
+                    // Upload Cake Photos
+                    foreach (var file in editCake.Files)
+                    {
+                        if (file != null)
+                        {
+                            var result = ImageHelper.UploadImage(new UploadImageModel { ImageFile = file, ImageName = file.FileName }, _imageRepository, Server);
+
+                            if (result > 0)
+                            {
+                                imageidList.Add(result);
+                            }
+                        }
+                    }
+
+                    if (_cakeImageRepository.GetImages(editCake.CakeId).Count == 0)
+                    {
+                        editCake.ImageId = imageidList.FirstOrDefault();
+                    }
+
+                    //Create CakeImage References
+                    foreach (var imageid in imageidList)
+                    {
+                        _cakeImageRepository.InsertCakeImageReference(new CakeImage
+                        {
+                            CakeId = editCake.CakeId,
+                            ImageId = imageid
+                        });
+                    }
+
+                    //Update Cake
+                    var updateResult = _cakeRepository.UpdateCake(editCake);
+
+                    if (updateResult)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Cake with {editCake.CakeId} ID was not updated!");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Server Error!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(editCake);
         }
 
         // GET: Cake/Delete/5

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dapper;
+using System.Text;
 
 namespace Bakery.DB.Repositories
 {
@@ -106,6 +107,112 @@ namespace Bakery.DB.Repositories
                     supplementdescription = updateSupplement.SupplementDescription,
                     supplementprice = updateSupplement.SupplementPrice
                 }) != 0;
+            }
+        }
+
+        private string CreateQuery(ISupplement suppement)
+        {
+            var query = new StringBuilder();
+
+            if (suppement.SupplementId != 0)
+            {
+                query.Append($"WHERE SupplementId={suppement.SupplementId}");
+            }
+
+            if (suppement.SupplementName != null && !suppement.SupplementName.Equals(string.Empty))
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"SupplementName LIKE N'%{suppement.SupplementName}%'");
+            }
+
+            if (suppement.SupplementDescription != null && !suppement.SupplementDescription.Equals(string.Empty))
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"SupplementDescription LIKE N'%{suppement.SupplementDescription}%'");
+            }
+
+            if (suppement.SupplementPrice != 0)
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"SupplementPrice={suppement.SupplementPrice}");
+            }
+
+            return query.ToString();
+        }
+
+        public IList<Supplement> GetSupplements(int from, int to, ISupplement searchSupplement)
+        {
+            var query = string.Empty;
+            if (searchSupplement != null)
+            {
+                query = CreateQuery(searchSupplement);
+            }
+
+            to = to - from;
+
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<Supplement>($@"
+                    SELECT
+                        SupplementId
+                        ,SupplementName
+                        ,SupplementDescription
+                        ,SupplementPrice
+                    FROM
+                        Supplements
+                    {query}
+                    ORDER BY SupplementId DESC
+                    OFFSET @from ROWS
+                    FETCH NEXT @to ROWS ONLY
+                ", new
+                {
+                    from = from,
+                    to = to
+                }
+                ).ToList();
+            }
+        }
+
+        public int GetCountRows(ISupplement searchSupplement)
+        {
+            string query = string.Empty;
+
+            if (searchSupplement != null)
+            {
+                query = CreateQuery(searchSupplement);
+            }
+
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(SupplementId)       
+                    FROM 
+                        Supplements
+                    " + query);
             }
         }
 

@@ -18,6 +18,5 @@
         $('div.' + imageid + ' label').attr("for", imageid);
         $('div.' + imageid + ' a').remove();
         $('div.' + imageid + ' label').text("+");
-
     }
 }

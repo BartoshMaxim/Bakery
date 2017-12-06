@@ -142,6 +142,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\SupplementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -178,6 +179,11 @@
     <Content Include="Views\Cake\Details.cshtml" />
     <Content Include="Views\Cake\Delete.cshtml" />
     <Content Include="Views\Cake\Edit.cshtml" />
+    <Content Include="Views\Supplement\Index.cshtml" />
+    <Content Include="Views\Shared\SupplementsData.cshtml" />
+    <Content Include="Views\Supplement\Details.cshtml" />
+    <Content Include="Views\Supplement\Create.cshtml" />
+    <Content Include="Views\Supplement\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
