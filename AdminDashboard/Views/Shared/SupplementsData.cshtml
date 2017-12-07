@@ -16,7 +16,7 @@
                 @Html.DisplayFor(modelItem => item.SupplementName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SupplementDescription)
+                @Html.DisplayFor(modelItem => item.SupplementWeight)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SupplementPrice)
@@ -43,6 +43,7 @@
                            rows = searchSupplement.Rows,
                            SupplementId = searchSupplement.SupplementId,
                            SupplementName = searchSupplement.SupplementName,
+                           SupplementWeight = searchSupplement.SupplementWeight,
                            SupplementDescription = searchSupplement.SupplementDescription,
                            SupplementPrice = searchSupplement.SupplementPrice
                        }, new AjaxOptions
@@ -58,6 +59,7 @@
                            rows = searchSupplement.Rows,
                            SupplementId = searchSupplement.SupplementId,
                            SupplementName = searchSupplement.SupplementName,
+                           SupplementWeight = searchSupplement.SupplementWeight,
                            SupplementDescription = searchSupplement.SupplementDescription,
                            SupplementPrice = searchSupplement.SupplementPrice
                        }, new AjaxOptions

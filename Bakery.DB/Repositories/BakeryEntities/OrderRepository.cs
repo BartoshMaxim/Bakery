@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dapper;
+using System.Text;
 
 namespace Bakery.DB.Repositories
 {
@@ -34,6 +35,7 @@ namespace Bakery.DB.Repositories
                         ,CakeId
                         ,OrderWeight
                         ,OrderDate
+                        ,CreatedDate
                     FROM
                         Orders
                     WHERE
@@ -54,6 +56,7 @@ namespace Bakery.DB.Repositories
                         o.OrderId
                         ,o.OrderWeight
                         ,o.OrderDate
+                        ,o.CreatedDate   
                         ,ca.CakeId
                         ,ca.CakeName
                         ,ca.CakeDescription
@@ -106,6 +109,7 @@ namespace Bakery.DB.Repositories
                         ,CakeId
                         ,OrderWeight
                         ,OrderDate
+                        ,CreatedDate
                     FROM
                         Orders").ToList();
             }
@@ -114,7 +118,7 @@ namespace Bakery.DB.Repositories
         public bool InsertOrder(IOrder order)
         {
             order.OrderId = GetIdForNextOrder();
-            order.OrderDate = DateTime.Now;
+            order.CreatedDate = DateTime.Now;
             order.OrderType = OrderType.Unconfirmed;
 
             if (order.OrderId == 0)
@@ -126,8 +130,8 @@ namespace Bakery.DB.Repositories
             {
                 return context.Execute(@"
                     INSERT
-                        Orders(OrderId, CakeId, CustomerId, OrderWeight, OrderDate, OrderTypeId)
-                    VALUES (@orderid, @cakeid, @customerid, @orderweight, @orderdate, @ordertypeid)
+                        Orders(OrderId, CakeId, CustomerId, OrderWeight, OrderDate, CreatedDate, OrderTypeId)
+                    VALUES (@orderid, @cakeid, @customerid, @orderweight, @orderdate, @createdDate, @ordertypeid)
                 ", new
                 {
                     orderid = order.OrderId,
@@ -135,6 +139,7 @@ namespace Bakery.DB.Repositories
                     customerid = order.CustomerId,
                     orderweight = order.OrderWeight,
                     orderdate = order.OrderDate,
+                    createdDate = order.CreatedDate,
                     ordertypeid = order.OrderType
                 }) != 0;
             }
@@ -152,6 +157,7 @@ namespace Bakery.DB.Repositories
                         ,CakeId      = @cakeid
                         ,OrderWeight = @orderweight
                         ,OrderDate   = @orderdate
+                        ,CreatedDate   = @createddate
                     WHERE
                         OrderId = @orderid
                 ", new
@@ -160,7 +166,8 @@ namespace Bakery.DB.Repositories
                     customerid = updateOrder.CakeId,
                     cakeid = updateOrder.CakeId,
                     orderweight = updateOrder.OrderWeight,
-                    orderdate = updateOrder.OrderDate
+                    orderdate = updateOrder.OrderDate,
+                    createddate = updateOrder.CreatedDate
                 }) != 0;
             }
         }
@@ -190,6 +197,123 @@ namespace Bakery.DB.Repositories
                 {
                     orderid = orderid
                 }) != 0;
+            }
+        }
+
+        private string CreateQuery(IOrder order)
+        {
+            var query = new StringBuilder();
+
+            if (order.OrderId != 0)
+            {
+                query.Append($"WHERE OrderId={order.OrderId}");
+            }
+
+            if (order.CakeId != 0)
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"CakeId ={order.CakeId}");
+            }
+
+            if (order.CustomerId != 0)
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"CustomerId ={order.CustomerId}");
+            }
+
+            if (order.OrderDate != null)
+            {
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
+
+                query.Append($"OrderDate ={order.OrderDate}");
+            }
+
+            if (query.Length == 0)
+            {
+                query.Append("WHERE ");
+            }
+            else
+            {
+                query.Append(" AND ");
+            }
+
+            query.Append($"OrderTypeId={order.OrderType}");
+
+            return query.ToString();
+        }
+
+        public IList<Order> GetOrders(int from, int to, IOrder searchOrder)
+        {
+            var query = string.Empty;
+            if (searchOrder != null)
+            {
+                query = CreateQuery(searchOrder);
+            }
+
+            to = to - from;
+
+            using (var context = Bakery.Sql())
+            {
+                return context.Query<Order>($@"
+                    SELECT
+                        OrderId
+                        ,CustomerId
+                        ,CakeId
+                        ,OrderWeight
+                        ,OrderDate
+                        ,CreatedDate
+                    FROM
+                        Orders
+                    {query}
+                    ORDER BY SupplementId DESC
+                    OFFSET @from ROWS
+                    FETCH NEXT @to ROWS ONLY
+                    ", new
+                {
+                    from = from,
+                    to = to
+                }).ToList();
+            }
+        }
+
+        public int GetCountRows(IOrder searchOrder)
+        {
+            string query = string.Empty;
+
+            if (searchOrder != null)
+            {
+                query = CreateQuery(searchOrder);
+            }
+            using (var context = Bakery.Sql())
+            {
+                return context.ExecuteScalar<int>(@"
+                    SELECT COUNT(OrderId)       
+                    FROM 
+                        Orders
+                    " + query);
             }
         }
 

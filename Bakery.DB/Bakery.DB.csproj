@@ -80,7 +80,7 @@
     <Compile Include="Interfaces\MvcControllers\Image\IUploadImageModel.cs" />
     <Compile Include="Interfaces\Repositories\ICakeImageRepository.cs" />
     <Compile Include="Interfaces\Repositories\ICakeRepository.cs" />
-    <Compile Include="Interfaces\Repositories\ICakeSupplementRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IOrderSupplementRepository.cs" />
     <Compile Include="Interfaces\Repositories\ICustomerRepository.cs" />
     <Compile Include="Interfaces\Repositories\IImageRepository.cs" />
     <Compile Include="Interfaces\Repositories\IOrderRepository.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Models\ApiControllerEntities\SupplementControllerEntities.cs" />
     <Compile Include="Models\BakeryEntities\Cake.cs" />
     <Compile Include="Models\BakeryEntities\CakeImage.cs" />
-    <Compile Include="Models\BakeryEntities\CakeSupplement.cs" />
+    <Compile Include="Models\BakeryEntities\OrderSupplement.cs" />
     <Compile Include="Models\BakeryEntities\Customer.cs" />
     <Compile Include="Models\BakeryEntities\Image.cs" />
     <Compile Include="Models\BakeryEntities\Order.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="Repositories\BakeryEntities\BakeryRepository.cs" />
     <Compile Include="Repositories\BakeryEntities\CakeImageRepository.cs" />
     <Compile Include="Repositories\BakeryEntities\CakeRepository.cs" />
-    <Compile Include="Repositories\BakeryEntities\CakeSupplementRepository.cs" />
+    <Compile Include="Repositories\BakeryEntities\OrderSupplementRepository.cs" />
     <Compile Include="Repositories\BakeryEntities\CustomerRepository.cs" />
     <Compile Include="Repositories\BakeryEntities\ImageRepository.cs" />
     <Compile Include="Repositories\BakeryEntities\OrderRepository.cs" />

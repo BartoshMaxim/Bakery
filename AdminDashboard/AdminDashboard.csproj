@@ -142,6 +142,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\SupplementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -150,6 +151,7 @@
     <Compile Include="Models\Controllers\AccountControllerEntities.cs" />
     <Compile Include="Models\Identity\IdentityServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Order\SearchOrderModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -184,6 +186,7 @@
     <Content Include="Views\Supplement\Details.cshtml" />
     <Content Include="Views\Supplement\Create.cshtml" />
     <Content Include="Views\Supplement\Edit.cshtml" />
+    <Content Include="Views\Supplement\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

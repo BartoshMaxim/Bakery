@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Bakery.DB.Models
 {
-    public class CakeSupplementLoginRequest : ICakeSupplementLoginRequest
+    public class OrderSupplementLoginRequest : IOrderSupplementLoginRequest
     {
-        public int CakeSupplementId { get; set; }
+        public int OrderSupplementId { get; set; }
 
         [Required]
-        public int CakeId { get; set; }
+        public int OrderId { get; set; }
 
         [Required]
         public int SupplementId { get; set; }

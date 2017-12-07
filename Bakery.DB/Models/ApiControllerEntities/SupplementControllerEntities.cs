@@ -24,6 +24,8 @@ namespace Bakery.DB.Models.ApiControllerEntities
         [Required]
         public string Login { get; set; }
 
+        public float SupplementWeight { get; set; }
+
         [Required]
         public string Password { get; set; }
     }

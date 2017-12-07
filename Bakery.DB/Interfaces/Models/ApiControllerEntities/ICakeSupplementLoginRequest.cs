@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bakery.DB.Interfaces
 {
-    interface ICakeSupplementLoginRequest : ICakeSupplement, ILoginModel
+    interface IOrderSupplementLoginRequest : IOrderSupplement, ILoginModel
     {
     }
 }

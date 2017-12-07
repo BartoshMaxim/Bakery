@@ -127,7 +127,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CakeController.cs" />
     <Compile Include="Controllers\CakeImageController.cs" />
-    <Compile Include="Controllers\CakeSupplementController.cs" />
+    <Compile Include="Controllers\OrderSupplementController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />

@@ -14,9 +14,9 @@ namespace Bakery.DB.Repositories
             return new CakeRepository();
         }
 
-        public static ICakeSupplementRepository GetCakeSupplementRepository()
+        public static IOrderSupplementRepository GetCakeSupplementRepository()
         {
-            return new CakeSupplementRepository();
+            return new OrderSupplementRepository();
         }
 
         public static ICustomerRepository GetCustomerRepository()

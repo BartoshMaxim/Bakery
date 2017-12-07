@@ -9,5 +9,7 @@
         string SupplementDescription { get; set; }
 
         int SupplementPrice { get; set; }
+
+        float SupplementWeight { get; set; }
     }
 }

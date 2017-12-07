@@ -11,5 +11,7 @@ namespace Bakery.DB
         public string SupplementDescription { get; set; }
 
         public int SupplementPrice { get; set; }
+
+        public float SupplementWeight { get; set; }
     }
 }

@@ -1,36 +1,22 @@
 ﻿using Bakery.DB.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
+using Bakery.DB;
 
-namespace Bakery.DB.Models
+namespace AdminDashboard.Views.Order
 {
-    public class OrderLoginRequest : IOrderLoginRequest
+    public class SearchOrderModel : IOrder, IPage
     {
         public int OrderId { get; set; }
-
-        [Required]
         public int CakeId { get; set; }
-
-        [Required]
         public int CustomerId { get; set; }
-
-        [Required]
         public float OrderWeight { get; set; }
-
         public OrderType OrderType { get; set; }
-
         public DateTime OrderDate { get; set; }
-
-        [Required]
-        public string Login { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
         public DateTime CreatedDate { get; set; }
+        public int Rows { get; set; }
+        public int Page { get; set; }
     }
 }

@@ -15,5 +15,7 @@ namespace Bakery.DB.Interfaces
         OrderType OrderType { get; set; }
 
         DateTime OrderDate { get; set; }
+
+        DateTime CreatedDate { get; set; }
     }
 }

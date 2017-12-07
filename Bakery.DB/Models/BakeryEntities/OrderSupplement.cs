@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Bakery.DB
 {
-    public class CakeSupplement : ICakeSupplement
+    public class OrderSupplement : IOrderSupplement
     {
-        public int CakeSupplementId { get; set; }
+        public int OrderSupplementId { get; set; }
 
-        public int CakeId { get; set; }
+        public int OrderId { get; set; }
 
         public int SupplementId { get; set; }
     }

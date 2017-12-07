@@ -17,13 +17,15 @@ namespace Bakery.DB
 
         public int SupplementPrice { get; set; }
 
+        public float SupplementWeight { get; set; }
+
         public int Rows { get; set; }
 
         public int Page { get; set; }
 
         public bool IsSupplementNotNull()
         {
-            if (SupplementId == 0 && SupplementName == null && SupplementDescription == null && SupplementPrice == 0)
+            if (SupplementId == 0 && SupplementName == null && SupplementWeight == 0 && SupplementPrice == 0)
             {
                 return false;
             }

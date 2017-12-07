@@ -1,5 +1,4 @@
 ﻿using Bakery.DB.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dapper;
@@ -34,6 +33,7 @@ namespace Bakery.DB.Repositories
                         ,SupplementName
                         ,SupplementDescription
                         ,SupplementPrice
+                        ,SupplementWeight
                     FROM
                         Supplements
                     WHERE
@@ -55,6 +55,7 @@ namespace Bakery.DB.Repositories
                         ,SupplementName
                         ,SupplementDescription
                         ,SupplementPrice
+                        ,SupplementWeight
                     FROM
                         Supplements
                 ").ToList();
@@ -74,15 +75,16 @@ namespace Bakery.DB.Repositories
             {
                 return context.Execute(@"
                     INSERT
-                        Supplements(SupplementId, SupplementName, SupplementDescription, SupplementPrice)
+                        Supplements(SupplementId, SupplementName, SupplementDescription, SupplementPrice, SupplementWeight)
                     VALUES
-                        (@supplementid, @supplementname, @supplementdescription, @supplementprice)
+                        (@supplementid, @supplementname, @supplementdescription, @supplementprice, @supplementweight)
                 ", new
                 {
                     supplementid = supplement.SupplementId,
                     supplementname = supplement.SupplementName,
                     supplementdescription = supplement.SupplementDescription,
-                    supplementprice = supplement.SupplementPrice
+                    supplementprice = supplement.SupplementPrice,
+                    supplementweight = supplement.SupplementWeight
                 }) != 0;
             }
         }
@@ -98,6 +100,7 @@ namespace Bakery.DB.Repositories
                         SupplementName         = @supplementname
                         ,SupplementDescription = @supplementdescription
                         ,SupplementPrice       = @supplementprice
+                        ,SupplementWeight      = @supplementweight
                     WHERE
                         SupplementId           = @supplementid
                 ", new
@@ -105,7 +108,8 @@ namespace Bakery.DB.Repositories
                     supplementid = updateSupplement.SupplementId,
                     supplementname = updateSupplement.SupplementName,
                     supplementdescription = updateSupplement.SupplementDescription,
-                    supplementprice = updateSupplement.SupplementPrice
+                    supplementprice = updateSupplement.SupplementPrice,
+                    supplementweight = updateSupplement.SupplementWeight
                 }) != 0;
             }
         }
@@ -133,7 +137,7 @@ namespace Bakery.DB.Repositories
                 query.Append($"SupplementName LIKE N'%{suppement.SupplementName}%'");
             }
 
-            if (suppement.SupplementDescription != null && !suppement.SupplementDescription.Equals(string.Empty))
+            if (suppement.SupplementWeight != 0 )
             {
                 if (query.Length == 0)
                 {
@@ -144,7 +148,7 @@ namespace Bakery.DB.Repositories
                     query.Append(" AND ");
                 }
 
-                query.Append($"SupplementDescription LIKE N'%{suppement.SupplementDescription}%'");
+                query.Append($"SupplementWeight ={suppement.SupplementWeight}");
             }
 
             if (suppement.SupplementPrice != 0)
@@ -182,6 +186,7 @@ namespace Bakery.DB.Repositories
                         ,SupplementName
                         ,SupplementDescription
                         ,SupplementPrice
+                        ,SupplementWeight
                     FROM
                         Supplements
                     {query}

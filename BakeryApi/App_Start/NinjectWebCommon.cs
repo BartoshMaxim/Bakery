@@ -65,7 +65,7 @@ namespace BakeryApi.App_Start
         {
             kernel.Bind<ICakeImageRepository>().To<CakeImageRepository>();
             kernel.Bind<ICakeRepository>().To<CakeRepository>();
-            kernel.Bind<ICakeSupplementRepository>().To<CakeSupplementRepository>();
+            kernel.Bind<IOrderSupplementRepository>().To<OrderSupplementRepository>();
             kernel.Bind<ICustomerRepository>().To<CustomerRepository>();
             kernel.Bind<IImageRepository>().To<ImageRepository>();
             kernel.Bind<IOrderRepository>().To<OrderRepository>();

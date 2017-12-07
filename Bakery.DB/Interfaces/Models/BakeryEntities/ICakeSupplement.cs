@@ -1,10 +1,10 @@
 ﻿namespace Bakery.DB.Interfaces
 {
-    public interface ICakeSupplement
+    public interface IOrderSupplement
     {
-        int CakeSupplementId { get; set; }
+        int OrderSupplementId { get; set; }
 
-        int CakeId { get; set; }
+        int OrderId { get; set; }
 
         int SupplementId { get; set; }
     }

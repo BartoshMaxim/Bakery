@@ -144,12 +144,19 @@ namespace AdminDashboard.Controllers
         // GET: Supplement/Delete/5
         public ActionResult Delete(int id)
         {
+            var supplement = _supplementRepository.GetSupplement(id);
+
+            if (supplement == null)
+            {
+                return HttpNotFound($"Supplement with {supplement.SupplementId} ID not found");
+            }
+
             return View();
         }
 
         // POST: Supplement/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeleteSupplement(int id)
         {
             try
             {

@@ -20,6 +20,8 @@ namespace Bakery.DB
         public OrderType OrderType { get; set; }
 
         public DateTime OrderDate { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 
     public class FullOrder
@@ -35,5 +37,7 @@ namespace Bakery.DB
         public OrderType OrderType { get; set; }
 
         public DateTime OrderDate { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }
