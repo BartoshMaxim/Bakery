@@ -237,7 +237,7 @@ namespace Bakery.DB.Repositories
                 query.Append($"CustomerId ={order.CustomerId}");
             }
 
-            if (order.OrderDate != null)
+            if (!order.OrderDate.Year.Equals(1))
             {
                 if (query.Length == 0)
                 {
@@ -248,19 +248,22 @@ namespace Bakery.DB.Repositories
                     query.Append(" AND ");
                 }
 
-                query.Append($"OrderDate ={order.OrderDate}");
+                query.Append($"OrderDate ='{order.OrderDate.ToString("yyyy-mm-dd")}'");
             }
 
-            if (query.Length == 0)
+            if (order.OrderType != OrderType.All)
             {
-                query.Append("WHERE ");
-            }
-            else
-            {
-                query.Append(" AND ");
-            }
+                if (query.Length == 0)
+                {
+                    query.Append("WHERE ");
+                }
+                else
+                {
+                    query.Append(" AND ");
+                }
 
-            query.Append($"OrderTypeId={order.OrderType}");
+                query.Append($"OrderTypeId ={(int)order.OrderType}");
+            }
 
             return query.ToString();
         }

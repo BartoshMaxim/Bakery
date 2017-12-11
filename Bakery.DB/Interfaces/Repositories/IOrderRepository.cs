@@ -10,6 +10,8 @@ namespace Bakery.DB.Interfaces
     {
         IList<Order> GetOrders();
 
+        IList<Order> GetOrders(int from, int to, IOrder searchOrder);
+
         IOrder GetOrder(int orderid);
 
         FullOrder GetFullOrder(int orderid);
@@ -19,5 +21,9 @@ namespace Bakery.DB.Interfaces
         bool DeleteOrder(int orderid);
 
         bool UpdateOrder(IOrder updateOrder);
+
+        int GetCountRows(IOrder searchOrder);
+
+        int GetCountRows();
     }
 }

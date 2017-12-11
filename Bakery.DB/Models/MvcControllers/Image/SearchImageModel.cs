@@ -20,7 +20,7 @@ namespace Bakery.DB
 
         public bool IsImageNotNull()
         {
-            if (ImageId == 0 && ImageName == null && ImagePath == null )
+            if (ImageId < 0 && ImageName == null && ImagePath == null)
             {
                 return false;
             }

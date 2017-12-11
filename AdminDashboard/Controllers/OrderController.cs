@@ -1,4 +1,6 @@
-﻿using Bakery.DB.Interfaces;
+﻿using AdminDashboard.Core.Helpers;
+using Bakery.DB;
+using Bakery.DB.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,37 +24,37 @@ namespace AdminDashboard.Controllers
             return View();
         }
 
-        public ActionResult PagesData(SearchOrderModel searchCustomer)
+        public ActionResult PagesData(SearchOrderModel searchOrder)
         {
             var customersCount = 0;
-            if (searchCustomer.IsCustomerNotNull())
+            if (searchOrder.IsOrderNotNull())
             {
-                customersCount = _customerRepository.GetCountRows(searchCustomer);
+                customersCount = _orderRepository.GetCountRows(searchOrder);
             }
             else
             {
-                customersCount = _customerRepository.GetCountRows();
+                customersCount = _orderRepository.GetCountRows();
             }
 
             if (customersCount == 0)
             {
-                return PartialView("CustomersData", null);
+                return PartialView("_OrdersData", null);
             }
 
-            var valideteRowsPage = new ValidateRowsPage(searchCustomer, customersCount);
+            var valideteRowsPage = new ValidateRowsPage(searchOrder, customersCount);
 
             ViewBag.PagesCount = valideteRowsPage.ValidateGetPageCount();
 
-            var from = (searchCustomer.Page - 1) * searchCustomer.Rows;
+            var from = (searchOrder.Page - 1) * searchOrder.Rows;
 
-            var to = searchCustomer.Page * searchCustomer.Rows;
+            var to = searchOrder.Page * searchOrder.Rows;
 
-            ViewBag.SearchCustomerModel = searchCustomer;
+            ViewBag.SearchOrderModel = searchOrder;
 
-            //Get limit customers from database
-            var customers = _customerRepository.GetCustomers(from, to, searchCustomer);
+            //Get limit orders from database
+            var customers = _orderRepository.GetOrders(from, to, searchOrder);
 
-            return PartialView("CustomersData", customers);
+            return PartialView("_OrdersData", customers);
         }
 
         // GET: Order/Details/5

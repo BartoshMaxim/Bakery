@@ -2,6 +2,6 @@
 {
     public enum OrderType
     {
-        Unconfirmed, Undelivered, Delivered, Deleted
+        All = -1, Unconfirmed, Undelivered, Delivered, Deleted
     }
 }
